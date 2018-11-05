@@ -29,7 +29,7 @@
 				</transition>
 			</div>
 
-			<Footer position="true"/>
+			<Footer/>
 		</div>
 	</div>
 </template>

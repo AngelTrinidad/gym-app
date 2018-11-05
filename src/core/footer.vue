@@ -1,5 +1,5 @@
 <template>
-	<div class="footer flex align-center justify-space-between" :class="{'above':position === 'above'}">
+	<div class="footer flex align-center justify-space-between above">
 		<div>
 			<span>Fecha y hora</span>
 		</div>
@@ -11,8 +11,7 @@
 
 <script>
 export default {
-	name: 'Footer',
-	props: ['position']
+	name: 'Footer'
 }
 </script>
 

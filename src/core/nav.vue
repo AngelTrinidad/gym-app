@@ -92,7 +92,7 @@
 		</el-submenu>
 		<el-submenu index="sucursal" popper-class="main-navigation-submenu">
 			<template slot="title">
-				<i class="mdi mdi-account-settings"></i><span>Sucural</span>
+				<i class="mdi mdi-home-map-marker"></i><span>Sucursal</span>
 			</template>
 			<el-menu-item index="/sucursal/listado">
 				<span slot="title">Listado de sucursales</span>
@@ -101,15 +101,21 @@
 				<span slot="title">Registro de sucursal</span>
 			</el-menu-item>
 		</el-submenu>
-		<el-submenu index="perfil" popper-class="main-navigation-submenu">
+		<el-submenu index="reporte" popper-class="main-navigation-submenu">
 			<template slot="title">
-				<i class="mdi mdi-home-map-marker"></i><span>Sucursal</span>
+				<i class="mdi mdi-chart-areaspline"></i><span>Reporte</span>
 			</template>
-			<el-menu-item index="/sucursal/listado">
-				<span slot="title">Listado de sucursales</span>
+			<el-menu-item index="/reporte/cuota">
+				<span slot="title">Cuotas</span>
 			</el-menu-item>
-			<el-menu-item index="/sucursal/registro">
-				<span slot="title">Registro de sucursal</span>
+			<el-menu-item index="/reporte/cuota">
+				<span slot="title">Socios</span>
+			</el-menu-item>
+			<el-menu-item index="/reporte/producto">
+				<span slot="title">Productos</span>
+			</el-menu-item>
+			<el-menu-item index="/reporte/caja">
+				<span slot="title">Caja</span>
 			</el-menu-item>
 		</el-submenu>
 	</el-menu>
