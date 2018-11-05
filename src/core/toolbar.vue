@@ -8,21 +8,7 @@
 			<search class="hidden-xs-only"></search>
 		</div>
 		<div class="box-right flex align-center pl-10">
-			<el-dropdown trigger="click" @command="onCommandLang">
-				<span class="el-dropdown-link">
-					<i class="flag-icon" :class="{['flag-icon-'+lang]:true}"></i>
-				</span>
-				<el-dropdown-menu slot="dropdown">
-					<el-dropdown-item command="us"><i class="flag-icon flag-icon-us mr-15"></i>English</el-dropdown-item>
-					<el-dropdown-item command="it"><i class="flag-icon flag-icon-it mr-15"></i>Italian</el-dropdown-item>
-					<el-dropdown-item command="fr"><i class="flag-icon flag-icon-fr mr-15"></i>French</el-dropdown-item>
-					<el-dropdown-item command="de"><i class="flag-icon flag-icon-de mr-15"></i>German</el-dropdown-item>
-					<el-dropdown-item command="es"><i class="flag-icon flag-icon-es mr-15"></i>Spanish</el-dropdown-item>
-					<el-dropdown-item command="cn"><i class="flag-icon flag-icon-cn mr-15"></i>Chinese</el-dropdown-item>
-					<el-dropdown-item command="jp"><i class="flag-icon flag-icon-jp mr-15"></i>Japanese</el-dropdown-item>
-					<el-dropdown-item command="/multi-language"><i class="mdi mdi-translate mr-15"></i>Read the docs</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
+
 			<button class="fullscreen-button" @click="toggleFullscreen">
 				<i class="mdi mdi-fullscreen" v-if="!fullscreen"></i>
 				<i class="mdi mdi-fullscreen-exit" v-if="fullscreen"></i>
@@ -33,15 +19,13 @@
 			<el-badge :is-dot="true" class="notification-icon-badge">
 				<el-button v-popover:popover icon="mdi mdi-bell" class="notification-icon"></el-button>
 			</el-badge>
-			<span class="username"><router-link to="/profile">Aurora Shenton</router-link></span>
+			<span class="username"><router-link to="/profile">[Nombre Usuario]</router-link></span>
 			<el-dropdown trigger="click" @command="onCommand">
 				<span class="el-dropdown-link">
 					<img src="../assets/images/avatar.jpg" class="avatar" alt="avatar">
 				</span>
 				<el-dropdown-menu slot="dropdown">
-					<el-dropdown-item command="/profile"><i class="mdi mdi-account mr-10"></i> Profile</el-dropdown-item>
-					<el-dropdown-item command="/calendar"><i class="mdi mdi-calendar mr-10"></i> Calendar</el-dropdown-item>
-					<el-dropdown-item command="/contacts"><i class="mdi mdi-account-multiple mr-10"></i> Contacts</el-dropdown-item>
+					<el-dropdown-item command="/perfil"><i class="mdi mdi-account mr-10"></i> Perfil</el-dropdown-item>
 					<el-dropdown-item command="/logout" divided><i class="mdi mdi-logout mr-10"></i> Logout</el-dropdown-item>
 				</el-dropdown-menu>
 			</el-dropdown>
@@ -82,9 +66,9 @@ export default {
 		},
 		resizePopoverWidth() {
 			if(window.innerWidth <= 768) {
-				this.popoverWidth = 250	
+				this.popoverWidth = 250
 			} else {
-				this.popoverWidth = 300	
+				this.popoverWidth = 300
 			}
 		},
 		toggleFullscreen() {
@@ -123,7 +107,7 @@ export default {
 		margin-left: 20px;
 		font-weight: bold;
 		@include text-bordered-shadow();
-		
+
 		a {
 			color: $text-color;
 			text-decoration: none;

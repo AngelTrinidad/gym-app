@@ -7,7 +7,7 @@
 			</div>
 			<div class="n-desc">{{n.desc}}</div>
 		</div>
-		<div class="see-all">See all notifications</div>
+		<div class="see-all">Ver todas las notificaciones</div>
 	</div>
 </template>
 
@@ -19,24 +19,17 @@ export default {
 			notifications: [
 				{
 					id: 1,
-					title: 'New order',
-					icon: 'mdi mdi-cart-outline',
-					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor. Proin dapibus justo felis, ut imperdiet lacus accumsan quis.',
-					date: 'Just now!'
+					title: 'Ingreso indevido',
+					icon: 'mdi mdi-account-alert',
+					desc: 'Ingreso de socio [Nombre del socio] con cuota vencida.',
+					date: 'hace X tiempo'
 				},
 				{
 					id: 2,
-					title: 'New Schedule Realease',
+					title: 'Ejemplo 2',
 					icon: 'mdi mdi-calendar',
 					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor. Proin dapibus justo felis, ut imperdiet lacus accumsan quis.',
 					date: '2 Min Ago'
-				},
-				{
-					id: 3,
-					title: 'New message from David',
-					icon: 'mdi mdi-email-outline',
-					desc: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in diam sit amet felis ultricies ultricies vitae et tortor. Proin dapibus justo felis, ut imperdiet lacus accumsan quis.',
-					date: '30 Min Ago'
 				}
 			]
 		}
@@ -50,7 +43,7 @@ export default {
 
 .notification-box {
 	color: $text-color;
-	
+
 	.notify {
 		margin-bottom: 20px;
 		max-height: 70px;
@@ -93,4 +86,3 @@ export default {
 	}
 }
 </style>
-

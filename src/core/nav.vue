@@ -13,7 +13,105 @@
 		<el-menu-item index="/home">
 			<i class="mdi mdi-gauge"></i><span slot="title">Inicio</span>
 		</el-menu-item>
+		<el-submenu index="cuota" popper-class="main-navigation-submenu">
+			<template slot="title">
+				<i class="mdi mdi-format-list-numbers"></i><span>Cuota</span>
+			</template>
+			<el-menu-item index="/cuota/pago">
+				<span slot="title">Registrar pago</span>
+			</el-menu-item>
+			<el-menu-item index="/cuota/consultar">
+				<span slot="title">Consultar pagos</span>
+			</el-menu-item>
+		</el-submenu>
+		<el-submenu index="socio" popper-class="main-navigation-submenu">
+			<template slot="title">
+				<i class="mdi mdi-clipboard-account"></i><span>Socio</span>
+			</template>
+			<el-menu-item index="/socio/registrar">
+				<span slot="title">Registrar socio</span>
+			</el-menu-item>
+			<el-menu-item index="/socio/consultar">
+				<span slot="title">Consultar socio</span>
+			</el-menu-item>
+		</el-submenu>
+		<el-submenu index="ingreso" popper-class="main-navigation-submenu">
+			<template slot="title">
+				<i class="mdi mdi-login-variant"></i><span>Ingreso</span>
+			</template>
+			<el-menu-item index="">
+				<span slot="title">Abrir ingreso</span>
+			</el-menu-item>
+			<el-menu-item index="/ingreso/consultar">
+				<span slot="title">Consultar ingresos</span>
+			</el-menu-item>
+		</el-submenu>
+		<el-submenu index="producto" popper-class="main-navigation-submenu">
+			<template slot="title">
+				<i class="mdi mdi-food-fork-drink"></i><span>Producto</span>
+			</template>
+			<el-menu-item index="/producto/consultar">
+				<span slot="title">Registrar producto</span>
+			</el-menu-item>
+			<el-menu-item index="/producto/consultar">
+				<span slot="title">Consultar ingresos</span>
+			</el-menu-item>
+			<el-menu-item index="/producto/stock">
+				<span slot="title">Actualizar stock</span>
+			</el-menu-item>
+			<el-menu-item index="/producto/venta">
+				<span slot="title">Venta de producto</span>
+			</el-menu-item>
+		</el-submenu>
 
+		<div class="el-menu-item-group__title"><span>Control Interno</span></div>
+		<el-submenu index="caja" popper-class="main-navigation-submenu">
+			<template slot="title">
+				<i class="mdi mdi-cash"></i><span>Caja</span>
+			</template>
+			<el-menu-item index="/caja/apertura">
+				<span slot="title">Apertura de caja</span>
+			</el-menu-item>
+			<el-menu-item index="/producto/consultar">
+				<span slot="title">Cierre de caja</span>
+			</el-menu-item>
+			<el-menu-item index="/producto/stock">
+				<span slot="title">Movimiento de caja</span>
+			</el-menu-item>
+		</el-submenu>
+		<el-submenu index="personal" popper-class="main-navigation-submenu">
+			<template slot="title">
+				<i class="mdi mdi-account-settings"></i><span>Personal</span>
+			</template>
+			<el-menu-item index="/personal/registro">
+				<span slot="title">Registro de personal</span>
+			</el-menu-item>
+			<el-menu-item index="/personal/consulta">
+				<span slot="title">Consulta de personal</span>
+			</el-menu-item>
+		</el-submenu>
+		<el-submenu index="sucursal" popper-class="main-navigation-submenu">
+			<template slot="title">
+				<i class="mdi mdi-account-settings"></i><span>Sucural</span>
+			</template>
+			<el-menu-item index="/sucursal/listado">
+				<span slot="title">Listado de sucursales</span>
+			</el-menu-item>
+			<el-menu-item index="/sucursal/registro">
+				<span slot="title">Registro de sucursal</span>
+			</el-menu-item>
+		</el-submenu>
+		<el-submenu index="perfil" popper-class="main-navigation-submenu">
+			<template slot="title">
+				<i class="mdi mdi-home-map-marker"></i><span>Sucursal</span>
+			</template>
+			<el-menu-item index="/sucursal/listado">
+				<span slot="title">Listado de sucursales</span>
+			</el-menu-item>
+			<el-menu-item index="/sucursal/registro">
+				<span slot="title">Registro de sucursal</span>
+			</el-menu-item>
+		</el-submenu>
 	</el-menu>
 </template>
 

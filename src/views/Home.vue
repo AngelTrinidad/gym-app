@@ -1,5 +1,5 @@
 <template>
-	<div class="page-layout-blank scrollable">
+	<div class="page-dashboard scrollable">
 		Blank page
 	</div>
 </template>
