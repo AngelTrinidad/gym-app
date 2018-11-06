@@ -13,25 +13,25 @@
 		<el-menu-item index="/home">
 			<i class="mdi mdi-gauge"></i><span slot="title">Inicio</span>
 		</el-menu-item>
-		<el-submenu index="cuota" popper-class="main-navigation-submenu">
+		<el-submenu index="cuota"  popper-class="main-navigation-submenu">
 			<template slot="title">
 				<i class="mdi mdi-format-list-numbers"></i><span>Cuota</span>
 			</template>
-			<el-menu-item index="/cuota/pago">
-				<span slot="title">Registrar pago</span>
+			<el-menu-item index="/cuota/registrarCuota">
+				<span slot="title">Registrar cuota</span>
 			</el-menu-item>
-			<el-menu-item index="/cuota/consultar">
-				<span slot="title">Consultar pagos</span>
+			<el-menu-item index="/cuota/consultarCuota">
+				<span slot="title">Consultar cuota</span>
 			</el-menu-item>
 		</el-submenu>
 		<el-submenu index="socio" popper-class="main-navigation-submenu">
 			<template slot="title">
 				<i class="mdi mdi-clipboard-account"></i><span>Socio</span>
 			</template>
-			<el-menu-item index="/socio/registrar">
+			<el-menu-item index="/socio/registrarSocio">
 				<span slot="title">Registrar socio</span>
 			</el-menu-item>
-			<el-menu-item index="/socio/consultar">
+			<el-menu-item index="/socio/consultarSocio">
 				<span slot="title">Consultar socio</span>
 			</el-menu-item>
 		</el-submenu>
@@ -42,7 +42,7 @@
 			<el-menu-item index="">
 				<span slot="title">Abrir ingreso</span>
 			</el-menu-item>
-			<el-menu-item index="/ingreso/consultar">
+			<el-menu-item index="/ingreso/consultarIngreso">
 				<span slot="title">Consultar ingresos</span>
 			</el-menu-item>
 		</el-submenu>
@@ -50,11 +50,11 @@
 			<template slot="title">
 				<i class="mdi mdi-food-fork-drink"></i><span>Producto</span>
 			</template>
-			<el-menu-item index="/producto/consultar">
+			<el-menu-item index="/producto/registrarProducto">
 				<span slot="title">Registrar producto</span>
 			</el-menu-item>
-			<el-menu-item index="/producto/consultar">
-				<span slot="title">Consultar ingresos</span>
+			<el-menu-item index="/producto/consultarProducto">
+				<span slot="title">Consultar producto</span>
 			</el-menu-item>
 			<el-menu-item index="/producto/stock">
 				<span slot="title">Actualizar stock</span>
@@ -72,10 +72,10 @@
 			<el-menu-item index="/caja/apertura">
 				<span slot="title">Apertura de caja</span>
 			</el-menu-item>
-			<el-menu-item index="/producto/consultar">
+			<el-menu-item index="/caja/cierre">
 				<span slot="title">Cierre de caja</span>
 			</el-menu-item>
-			<el-menu-item index="/producto/stock">
+			<el-menu-item index="/caja/movimiento">
 				<span slot="title">Movimiento de caja</span>
 			</el-menu-item>
 		</el-submenu>
