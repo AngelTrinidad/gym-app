@@ -131,7 +131,6 @@ export default {
 			asyncComponent: 'peity',
 			links: [],
       state2: ''
-
 		}
 	},
 	methods: {
