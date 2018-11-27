@@ -18,7 +18,6 @@
 
 
 <script>
-// @ is an alias to /src
 import Nav from '@/core/nav.vue'
 import Logo from '@/core/logo.vue'
 

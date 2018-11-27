@@ -7,14 +7,14 @@ export default {
 	},
 	navLeft: {
 		navPos: 'left',
-		toolbar: 'bottom',
+		toolbar: 'top',
 		boxed: false,
 		roundedCorners: false,
 		footer: 'below'
 	},
 	navRight: {
 		navPos: 'right',
-		toolbar: 'bottom',
+		toolbar: 'top',
 		boxed: false,
 		roundedCorners: false,
 		footer: 'below'
@@ -25,7 +25,7 @@ export default {
 		boxed: false,
 		roundedCorners: false,
 		footer: 'below'
-	},	
+	},
 	navBottom: {
 		navPos: 'bottom',
 		toolbar: 'bottom',

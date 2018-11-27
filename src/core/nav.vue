@@ -9,115 +9,18 @@
 		class="main-navigation-menu"
 		:class="{'nav-collapsed':isCollapse}"
 	>
-		<div class="el-menu-item-group__title" style="padding-top: 4px;"><span>Módulos</span></div>
-		<el-menu-item index="/home">
-			<i class="mdi mdi-gauge"></i><span slot="title">Inicio</span>
+		<el-menu-item index="/">
+			<i class="mdi mdi-home-outline"></i><span slot="title">Inicio</span>
 		</el-menu-item>
-		<el-submenu index="cuota"  popper-class="main-navigation-submenu">
-			<template slot="title">
-				<i class="mdi mdi-format-list-numbers"></i><span>Cuota</span>
-			</template>
-			<el-menu-item index="/cuota/registrarCuota">
-				<span slot="title">Registrar cuota</span>
-			</el-menu-item>
-			<el-menu-item index="/cuota/consultarCuota">
-				<span slot="title">Consultar cuota</span>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="socio" popper-class="main-navigation-submenu">
-			<template slot="title">
-				<i class="mdi mdi-clipboard-account"></i><span>Socio</span>
-			</template>
-			<el-menu-item index="/socio/registrarSocio">
-				<span slot="title">Registrar socio</span>
-			</el-menu-item>
-			<el-menu-item index="/socio/consultarSocio">
-				<span slot="title">Consultar socio</span>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="ingreso" popper-class="main-navigation-submenu">
-			<template slot="title">
-				<i class="mdi mdi-login-variant"></i><span>Ingreso</span>
-			</template>
-			<el-menu-item index="">
-				<span slot="title">Abrir ingreso</span>
-			</el-menu-item>
-			<el-menu-item index="/ingreso/consultarIngreso">
-				<span slot="title">Consultar ingresos</span>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="producto" popper-class="main-navigation-submenu">
-			<template slot="title">
-				<i class="mdi mdi-food-fork-drink"></i><span>Producto</span>
-			</template>
-			<el-menu-item index="/producto/registrarProducto">
-				<span slot="title">Registrar producto</span>
-			</el-menu-item>
-			<el-menu-item index="/producto/consultarProducto">
-				<span slot="title">Consultar producto</span>
-			</el-menu-item>
-			<el-menu-item index="/producto/stock">
-				<span slot="title">Actualizar stock</span>
-			</el-menu-item>
-			<el-menu-item index="/producto/venta">
-				<span slot="title">Venta de producto</span>
-			</el-menu-item>
-		</el-submenu>
-
-		<div class="el-menu-item-group__title"><span>Control Interno</span></div>
-		<el-submenu index="caja" popper-class="main-navigation-submenu">
-			<template slot="title">
-				<i class="mdi mdi-cash"></i><span>Caja</span>
-			</template>
-			<el-menu-item index="/caja/apertura">
-				<span slot="title">Apertura de caja</span>
-			</el-menu-item>
-			<el-menu-item index="/caja/cierre">
-				<span slot="title">Cierre de caja</span>
-			</el-menu-item>
-			<el-menu-item index="/caja/movimiento">
-				<span slot="title">Movimiento de caja</span>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="personal" popper-class="main-navigation-submenu">
-			<template slot="title">
-				<i class="mdi mdi-account-settings"></i><span>Personal</span>
-			</template>
-			<el-menu-item index="/personal/registro">
-				<span slot="title">Registro de personal</span>
-			</el-menu-item>
-			<el-menu-item index="/personal/consulta">
-				<span slot="title">Consulta de personal</span>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="sucursal" popper-class="main-navigation-submenu">
-			<template slot="title">
-				<i class="mdi mdi-home-map-marker"></i><span>Sucursal</span>
-			</template>
-			<el-menu-item index="/sucursal/listado">
-				<span slot="title">Listado de sucursales</span>
-			</el-menu-item>
-			<el-menu-item index="/sucursal/registro">
-				<span slot="title">Registro de sucursal</span>
-			</el-menu-item>
-		</el-submenu>
-		<el-submenu index="reporte" popper-class="main-navigation-submenu">
-			<template slot="title">
-				<i class="mdi mdi-chart-areaspline"></i><span>Reporte</span>
-			</template>
-			<el-menu-item index="/reporte/cuota">
-				<span slot="title">Cuotas</span>
-			</el-menu-item>
-			<el-menu-item index="/reporte/cuota">
-				<span slot="title">Socios</span>
-			</el-menu-item>
-			<el-menu-item index="/reporte/producto">
-				<span slot="title">Productos</span>
-			</el-menu-item>
-			<el-menu-item index="/reporte/caja">
-				<span slot="title">Caja</span>
-			</el-menu-item>
-		</el-submenu>
+		<el-menu-item index="/users">
+			<i class="mdi mdi-account-multiple-outline"></i><span slot="title">Usuarios</span>
+		</el-menu-item>
+		<el-menu-item index="/sucursales">
+			<i class="mdi mdi-domain"></i><span slot="title">Sucursales</span>
+		</el-menu-item>
+		<el-menu-item index="/productos">
+			<i class="mdi mdi-cube-outline"></i><span slot="title">Productos</span>
+		</el-menu-item>
 	</el-menu>
 </template>
 
