@@ -8,7 +8,6 @@
 			<search class="hidden-xs-only"></search>
 		</div>
 		<div class="box-right flex align-center pl-10">
-
 			<button class="fullscreen-button" @click="toggleFullscreen">
 				<i class="mdi mdi-fullscreen" v-if="!fullscreen"></i>
 				<i class="mdi mdi-fullscreen-exit" v-if="fullscreen"></i>
@@ -19,14 +18,14 @@
 			<el-badge :is-dot="true" class="notification-icon-badge">
 				<el-button v-popover:popover icon="mdi mdi-bell" class="notification-icon"></el-button>
 			</el-badge>
-			<span class="username"><router-link to="/profile">[Nombre Usuario]</router-link></span>
+			<span class="username"><router-link to="/profile">{{fullName | toUpperCaseWords}}</router-link></span>
 			<el-dropdown trigger="click" @command="onCommand">
 				<span class="el-dropdown-link">
-					<img src="../assets/images/avatar.jpg" class="avatar" alt="avatar">
+					<img src="../assets/images/avatar-2.jpg" class="avatar" alt="avatar">
 				</span>
 				<el-dropdown-menu slot="dropdown">
-					<el-dropdown-item command="/perfil"><i class="mdi mdi-account mr-10"></i> Perfil</el-dropdown-item>
-					<el-dropdown-item command="/logout" divided><i class="mdi mdi-logout mr-10"></i> Logout</el-dropdown-item>
+					<el-dropdown-item command="/profile"><i class="mdi mdi-account mr-10"></i> Perfil</el-dropdown-item>
+					<el-dropdown-item command="/logout" divided><i class="mdi mdi-logout mr-10"></i> Cerrar Sesión</el-dropdown-item>
 				</el-dropdown-menu>
 			</el-dropdown>
 
@@ -38,6 +37,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 import NotificationBox from '@/components/NotificationBox'
 import Search from '@/components/Search'
 
@@ -47,17 +47,16 @@ export default {
 	data() {
 		return {
 			popoverWidth: 300,
-			fullscreen: false,
-			lang: 'us'
+			fullscreen: false
+		}
+	},
+	computed: {
+		...mapGetters('auth', ['user']),
+		fullName(){
+			return `${this.user.nombre} ${this.user.apellido}`
 		}
 	},
 	methods: {
-		onCommandLang(lang) {
-			if(lang.charAt(0) === '/')
-				this.onCommand(lang)
-			else
-				this.lang = lang
-		},
 		onCommand(path) {
 			this.$router.push(path)
 		},

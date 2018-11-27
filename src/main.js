@@ -20,7 +20,7 @@ import 'vue-resize/dist/vue-resize.css'
 import VueGoodTable from 'vue-good-table'
 import VirtualCollection from 'vue-virtual-collection'
 import VueFloatLabel from 'vue-float-label'
-import * as VueGoogleMaps from 'vue2-google-maps' 
+import * as VueGoogleMaps from 'vue2-google-maps'
 import GmapCluster from 'vue2-google-maps/dist/components/cluster' // replace src with dist if you have Babel issues
 import V2Table from 'v2-table'
 import 'v2-table/dist/index.css'
@@ -56,9 +56,30 @@ import 'flag-icon-css/css/flag-icon.css'
 import '../node_modules/mdi/scss/materialdesignicons.scss'
 import Affix from './directives/affix'
 import App from './App.vue'
-import router from './router/' 
-import store from './store' 
-import i18n_messages from './i18n.json' 
+import router from './router'
+import store from './store'
+import i18n_messages from './i18n.json'
+
+//------ axios
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+axios.defaults.baseURL = 'http://localhost:3333/api/v1/'
+axios.interceptors.request.use((config) => {
+	config.headers.common['Authorization'] = `Bearer ${window.localStorage.getItem('_token')}`
+	return config
+})
+Vue.use(VueAxios, axios)
+//------//
+
+//------Filtros
+Vue.filter('toUpperCaseWords', text => {
+		const words = text.toLowerCase().split(' ')
+		return words.map(word => word.charAt(0).toUpperCase()+word.slice(1)).join(' ')
+})
+Vue.filter('separator', (value, separator='.') => {
+		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator)
+})
+//------//
 
 Vue.config.productionTip = false
 
@@ -106,9 +127,9 @@ Vue.use(V2Table)
 Vue.component('vue-scroll', VuePerfectScrollbar)
 Vue.component('vue-virtual-list', VirtualList)
 delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({ 
-	iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'), 
-	iconUrl: require('leaflet/dist/images/marker-icon.png'), 
+L.Icon.Default.mergeOptions({
+	iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+	iconUrl: require('leaflet/dist/images/marker-icon.png'),
 	shadowUrl: require('leaflet/dist/images/marker-shadow.png')
 });
 Vue.component('l-map', Vue2Leaflet.LMap)

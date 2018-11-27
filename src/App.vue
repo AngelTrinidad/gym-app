@@ -1,5 +1,11 @@
 <template>
-	<div class="layout-container flex justify-center">
+	<div class="layout-container flex justify-center" :class="{
+		'column':navPos === 'top' || navPos === 'bottom',
+		'boxed':boxed,
+		'footer-above':footer === 'above',
+		'content-only':!navPos
+	}">
+
 		<transition name="fade">
 			<div class="splash-screen" v-if="splashScreen">
 				<div class="wrap">
@@ -10,26 +16,27 @@
 		</transition>
 
 		<vertical-nav
-			position="left"
+			:position="navPos"
 			:collapse-nav="collapseNav"
 			:open-sidebar.sync="openSidebar"
 			@collapse-nav-toggle="collapseNav = !collapseNav"
 			@push-page="closeSidebar"
-		/>
+			v-if="navPos === 'left'"/>
 
 		<div class="container flex column box grow">
-
-			<div class="header">
-				<Toolbar @toggle-sidebar="openSidebar = !openSidebar" menu-burger="left"/>
+			<div class="header" v-if="toolbar === 'top'">
+				<Toolbar @toggle-sidebar="openSidebar = !openSidebar" :menu-burger="navPos"/>
 			</div>
-
 			<div class="main box grow flex">
+				<span class="main-out-border--top-left" v-if="roundedCorners"></span>
+				<span class="main-out-border--top-right" v-if="roundedCorners"></span>
+				<span class="main-out-border--bottom-left" v-if="roundedCorners"></span>
+				<span class="main-out-border--bottom-right" v-if="roundedCorners"></span>
 				<transition :name="viewAnimation" mode="out-in">
 					<router-view class="view box grow"/>
 				</transition>
 			</div>
-
-			<Footer/>
+			<Footer v-if="footer === 'below'" :position="footer"/>
 		</div>
 	</div>
 </template>
@@ -52,6 +59,24 @@ export default {
 		}
 	},
 	computed: {
+		navPos() {
+			if(this.innerWidth <= 768 && (this.$store.getters.navPos === 'top' || this.$store.getters.navPos === 'bottom')) {
+				return 'left'
+			}
+			return this.$store.getters.navPos
+		},
+		toolbar() {
+			return this.$store.getters.toolbar
+		},
+		footer() {
+			return this.$store.getters.footer
+		},
+		boxed() {
+			return this.$store.getters.boxed
+		},
+		roundedCorners() {
+			return this.$store.getters.roundedCorners
+		},
 		viewAnimation() {
 			return this.$store.getters.viewAnimation || 'none'
 		},
@@ -79,12 +104,11 @@ export default {
 		Footer
 	},
 	created() {
-		if(browser.name)
-			document.getElementsByTagName("html")[0].classList.add(browser.name)
+		if(browser.name) document.getElementsByTagName("html")[0].classList.add(browser.name)
 	},
 	mounted() {
 		this.resizeOpenNav()
-		window.addEventListener('resize', this.resizeOpenNav);
+		window.addEventListener('resize', this.resizeOpenNav)
 	},
 	beforeDestroy() {
 		window.removeEventListener('resize', this.resizeOpenNav);
