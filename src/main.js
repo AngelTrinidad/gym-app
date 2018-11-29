@@ -63,7 +63,7 @@ import i18n_messages from './i18n.json'
 //------ axios
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-axios.defaults.baseURL = 'http://localhost:3333/api/v1/'
+axios.defaults.baseURL = store.state.apiURL
 axios.interceptors.request.use((config) => {
 	config.headers.common['Authorization'] = `Bearer ${window.localStorage.getItem('_token')}`
 	return config

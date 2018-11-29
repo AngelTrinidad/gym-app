@@ -19,6 +19,9 @@ export default {
     },
     setLogged: (state, logged) => {
       state.logged = logged
+    },
+    setImageProfileUser: (state, img) => {
+      state.user.img_perfil = img
     }
   },
   actions: {
