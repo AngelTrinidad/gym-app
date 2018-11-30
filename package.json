@@ -46,6 +46,7 @@
     "vue-axios": "^2.1.4",
     "vue-bulma-chartjs": "^1.0.5",
     "vue-chartkick": "^0.3.3",
+    "vue-cropperjs": "^2.2.2",
     "vue-cute-timeline": "^1.2.4",
     "vue-d3-network": "^0.1.24",
     "vue-float-label": "^1.6.1",

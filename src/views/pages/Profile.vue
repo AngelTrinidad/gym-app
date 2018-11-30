@@ -4,7 +4,11 @@
 			<div class="cover"></div>
 			<div class="username">
 				<div class="cover-small"></div>
-				<div class="avatar-small"><img src="@/assets/images/avatar-2.jpg" alt="avatar"></div>
+				<div class="avatar-small">
+					<img :src="user.img_perfil
+						? `${$store.state.apiImages}users/${user.img_perfil}`
+						: '@/assets/images/avatar-2.jpg'" alt="avatar">
+				</div>
 				<span>{{fullName | toUpperCaseWords}}</span>
 				<div class="colors-box">
 					<div v-for="i in 5" :key="i" :class="{'color':true, 'active':colorActive}" :style="{'background':color}"></div>
@@ -21,6 +25,9 @@
 				<el-tab-pane label="Contraseña" name="password">
 						<profile-password></profile-password>
 				</el-tab-pane>
+				<el-tab-pane label="Foto de perfil" name="foto">
+						<profile-foto></profile-foto>
+				</el-tab-pane>
 			</el-tabs>
 		</div>
 	</vue-scroll>
@@ -31,6 +38,7 @@ import ColorThief from 'color-thief-browser'
 import Affix from '@/components/Affix'
 import ProfileGenerales from '@/components/User/Profile/ProfileGenerales'
 import ProfilePassword from '@/components/User/Profile/ProfilePassword'
+import ProfileFoto from '@/components/User/Profile/ProfileFoto'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -63,12 +71,13 @@ export default {
 
 		this.resizeAffixEnabled();
 		window.addEventListener('resize', this.resizeAffixEnabled);
+		console.log(this.user.img_perfil)
 	},
 	beforeDestroy() {
 		window.removeEventListener('resize', this.resizeAffixEnabled);
 	},
 	components: {
-		Affix,ProfileGenerales,ProfilePassword
+		Affix,ProfileGenerales,ProfilePassword,ProfileFoto
 	},
 	computed: {
 		...mapGetters('auth', ['user']),

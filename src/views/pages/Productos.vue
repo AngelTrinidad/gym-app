@@ -24,11 +24,15 @@
 
 				<el-button
 					icon="el-icon-plus"
-					@click="openDialog({})"
+					@click="openDialog({}, true)"
 				> Agregar producto</el-button>
 			</div>
 			<div class="contacts-list box grow scrollable only-y">
-				<div v-for="producto in _productos" :key="producto.id" class="flex contact" @click="">
+				<div
+					v-for="producto in _productos"
+					:key="producto.id"
+					class="flex contact"
+					@click="openDialog(producto, false)">
 					<div class="avatar align-vertical">
 						<img :src="'/static/images/users/user-0.jpg'" class="align-vertical-middle" alt="user avatar">
 					</div>
@@ -48,6 +52,8 @@
 			:visible.sync="dialogVisible"
 			@processFormProducto="processForm($event)"
 			@cancelFormProducto="cancelForm"
+			@deleteProducto="deleteProducto($event)"
+			:isCreate="createProduct"
 		></producto-dialog>
 	</div>
 </template>
@@ -63,7 +69,8 @@ export default {
 		return {
 			dialogVisible: false,
 			pageWidth: 0,
-			producto: {}
+			producto: {},
+			createProduct: true,
 		}
 	},
 	computed: {
@@ -97,16 +104,55 @@ export default {
 		__resizeHanlder: _.throttle(function (e) {
 			this.setPageWidth()
 		}, 700),
-		openDialog(product){
-			this.producto = product
+		openDialog(product, create){
+			if(!create){
+				this.producto = {
+					id: product.id,
+          detalle: product.detalle,
+          estado: product.estado,
+          precio: product.precio,
+          created_at: product.created_at,
+          updated_at: product.updated_at,
+          userAlta: product.userAlta,
+          stock: product.stock
+				}
+			}else{
+				this.producto = product
+			}
 			this.dialogVisible = true
+			this.createProduct = create
 		},
-		processForm(product){
-			console.log(product)
+		async processForm(product){
+			let res
+			let message = ''
+			if(!product.id){
+				res = await this.$store.dispatch('producto/create', product)
+				message = 'Producto creado correctamente'
+			}else{
+				res = await this.$store.dispatch('producto/update', product)
+				message = 'Producto actualizado correctamente'
+			}
+
+			if(res.status === 'ok'){
+				this.$message({message, type: 'success'})
+				this.dialogVisible = false
+			}else{
+				this.$message.error('Oops. Hubo un error al procesar el formulario.')
+			}
 		},
 		cancelForm(){
-
 			this.dialogVisible = false
+		},
+		deleteProducto(producto){
+			this.$confirm('Esto eliminará el producto, ¿está seguro?', 'Confirmación', {
+				confirmButtonText: 'Confirmar',
+				cancelButtonText: 'Cancelar',
+				type: 'error'
+			}).then(async ()=> {
+				//Confirmed
+				const res = await this.$store.dispatch('producto/delete', producto.id)
+				console.log(res)
+			})
 		}
 	},
 	mounted() {

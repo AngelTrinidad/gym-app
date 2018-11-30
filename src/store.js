@@ -19,7 +19,7 @@ import producto from './modules/Producto'
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
-
+const url = 'http://localhost:3333/api/v1/'
 export default new Vuex.Store({
 	state: {
 		layout: {
@@ -30,7 +30,9 @@ export default new Vuex.Store({
 			roundedCorners: false, //true, false
 			viewAnimation: 'fade-top' // fade-left, fade-right, fade-top, fade-top-in-out, fade-bottom, fade-bottom-in-out, fade, false
 		},
-		splashScreen: true
+		splashScreen: true,
+    apiURL: url,
+    apiImages: `${url}public/images/`
 	},
 	mutations: {
 		setLayout(state, payload) {
