@@ -87,6 +87,26 @@ export default {
         }
       }
     },
+    updatePhotoProfile: async ({commit}, form) => {
+      try {
+        const {data} = await Vue.axios({
+          method: 'POST',
+          url: 'upload-profile-photo-user',
+          data: form,
+          headers: {'Content-Type': 'multipart/form-data' }
+        })
+
+        if(data.status === 'ok'){
+          commit('setImageProfileUser', data.body.name_img)
+        }
+        return data
+      } catch (e) {
+        return {
+          status: 'error',
+          msg: `Error al procesar el updatePhotoProfile: ${e.message}`
+        }
+      }
+    },
     verify: async (context, payload) => {
       try {
         let body = {

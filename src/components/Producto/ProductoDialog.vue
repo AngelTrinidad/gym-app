@@ -1,7 +1,6 @@
 <template>
 	<el-dialog
 		:show-close="true"
-		:custom-class="'producto-dialog'"
 		:visible="visible"
 		@open="openDialog"
 		@close="$emit('cancelFormProducto')"
@@ -74,7 +73,6 @@
 			</el-form>
 		</div>
 		<span slot="footer" class="dialog-footer">
-			<el-row>
 			<el-button type="primary" @click="validateBeforeSubmit">
 				{{isCreate ? 'Crear' : 'Actualizar'}}
 			</el-button>
@@ -87,7 +85,6 @@
 				icon="el-icon-delete"
 				circle
 			></el-button>
-		</el-row>
 	  </span>
 	</el-dialog>
 </template>

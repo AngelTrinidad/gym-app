@@ -3,12 +3,10 @@
 		<div class="card-base card-shadow--medium identity" id="boundary">
 			<div class="cover"></div>
 			<div class="username">
-
 				<div class="avatar-small">
 					<img :src="user.img_perfil
 						? `${$store.state.apiImages}users/${user.img_perfil}`
 						: '@/assets/images/avatar-2.jpg'" alt="avatar">
-
 				</div>
 				<span>{{fullName | toUpperCaseWords}}</span>
 				<div class="colors-box">
@@ -17,13 +15,23 @@
 			</div>
 			<div class="avatar">
 				<!-- poner un onclick en el div hover-change -->
-				<div class="hover-change">
+				<div class="hover-change" @click="$refs.selectPictureProfile.click()">
+					<input
+						type="file"
+						v-show="false"
+						ref="selectPictureProfile"
+						id="selectPictureProfile"
+						@change="fileSelected($event)"
+						accept=".jpg, .jpeg"
+					></input>
 						<p>
 							<i class="mdi mdi-camera"></i><br />
 							Actualizar
 						</p>
 				</div>
-				<img src="@/assets/images/avatar-2.jpg" alt="avatar">
+				<img :src="user.img_perfil
+					? `${$store.state.apiImages}users/${user.img_perfil}`
+					: '@/assets/images/avatar-2.jpg'" alt="avatar">
 			</div>
 			<img src="@/assets/images/cover-2.jpg" id="color-thief" class="color-thief" alt="profile cover">
 		</div>
@@ -35,11 +43,14 @@
 				<el-tab-pane label="Contraseña" name="password">
 						<profile-password></profile-password>
 				</el-tab-pane>
-				<el-tab-pane label="Foto de perfil" name="foto">
-						<profile-foto></profile-foto>
-				</el-tab-pane>
 			</el-tabs>
 		</div>
+		<crop-image
+			:visible.sync="dialogVisible"
+			:img="imgProfile"
+			@cropped="updateImgProfile($event)"
+			@cancelCrop="cancelCropImgProfile"
+		></crop-image>
 	</vue-scroll>
 </template>
 
@@ -48,7 +59,7 @@ import ColorThief from 'color-thief-browser'
 import Affix from '@/components/Affix'
 import ProfileGenerales from '@/components/User/Profile/ProfileGenerales'
 import ProfilePassword from '@/components/User/Profile/ProfilePassword'
-import ProfileFoto from '@/components/User/Profile/ProfileFoto'
+import CropImage from '@/components/cropImage'
 import {mapGetters} from 'vuex'
 
 export default {
@@ -58,7 +69,9 @@ export default {
 			colorActive: false,
 			color: 'white',
 			activeTab: 'generales',
-			affixEnabled: true
+			affixEnabled: true,
+			dialogVisible: false,
+			imgProfile: undefined
 		}
 	},
 	methods: {
@@ -68,26 +81,49 @@ export default {
 			} else {
 				this.affixEnabled = true
 			}
+		},
+		fileSelected(file){
+			const img = file.target.files[0]
+			if(img){
+				this.imgProfile = img
+				this.dialogVisible = true
+			}
+			document.querySelector('#selectPictureProfile').value = ''
+		},
+		async updateImgProfile(img){
+			const form = new FormData()
+			form.append('photo', img)
+			const res = await this.$store.dispatch('auth/updatePhotoProfile', form)
+			if(res.status === 'ok'){
+				this.dialogVisible = false
+				this.$message({
+					message: 'Foto de perfil actualizado correctamente',
+					type: 'success'
+				})
+			}else{
+				this.$message.error('Oops. Hubo un error al procesar la acción')
+			}
+		},
+		cancelCropImgProfile(){
+			this.dialogVisible = false
 		}
 	},
 	mounted() {
 		var colorThief = new ColorThief();
 		setTimeout(()=>{
 			let rgb = colorThief.getColor(document.getElementById('color-thief'))
-			//console.log('Profile mounted', rgb)
 			this.colorActive = true
 			this.color = `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`
 		}, 1000)
 
 		this.resizeAffixEnabled();
 		window.addEventListener('resize', this.resizeAffixEnabled);
-		console.log(this.user.img_perfil)
 	},
 	beforeDestroy() {
 		window.removeEventListener('resize', this.resizeAffixEnabled);
 	},
 	components: {
-		Affix,ProfileGenerales,ProfilePassword,ProfileFoto
+		Affix,ProfileGenerales,ProfilePassword,CropImage
 	},
 	computed: {
 		...mapGetters('auth', ['user']),
