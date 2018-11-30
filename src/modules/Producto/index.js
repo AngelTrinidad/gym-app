@@ -34,6 +34,19 @@ export default {
       state.productos = state.productos
         .map(producto => producto.id === payload.id ? payload : producto)
     },
+    setStateProducto: (state, payload) => {
+      if(payload.estado == 2){
+        state.productos = state.productos.filter(producto => producto.id !== payload.id)
+      }else{
+        state.productos = state.productos
+          .map(producto => {
+            if(producto.id === payload.id) {
+              producto.estado = payload.estado
+            }
+            return producto
+          })
+      }
+    },
     addProducto: (state, payload) => {
       state.productos.push(payload)
     },
@@ -51,6 +64,7 @@ export default {
           method: 'GET',
           url: 'all-producto'
         })
+        console.log(data)
         if(data.status === 'ok'){
           commit('setProductos', data.body.products)
         }
@@ -100,7 +114,7 @@ export default {
           url: 'change-state-producto',
           data: {producto_id: payload.id, new_state: payload.state}
         })
-        if(data.status === 'ok') commit('setProducto', data.body.producto)
+        if(data.status === 'ok') commit('setStateProducto', data.body.producto)
         return data
       } catch (e) {
         return {

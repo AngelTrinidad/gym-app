@@ -1,17 +1,24 @@
 <template lang="html">
   <div class="page-profile-edit">
 		<div class="right-box box grow"><h3>Foto de perfil</h3></div>
-    <el-upload
-      class="avatar-uploader"
-      :action="action"
-      :headers="headers"
-      name="photo"
-      :show-file-list="false"
-      :on-success="uploadSuccess"
-      :before-upload="uploadBefore">
-      <img v-if="_user.img_perfil" :src="`${$store.state.apiImages}users/${_user.img_perfil}`" class="avatar">
-      <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-    </el-upload>
+    <el-tooltip class="item" effect="dark" content="Click para cambiar imagen" placement="right">
+      <el-upload
+        class="avatar-uploader"
+        :action="action"
+        :headers="headers"
+        name="photo"
+        :show-file-list="false"
+        :on-success="uploadSuccess"
+        :before-upload="uploadBefore">
+        <img
+          v-if="_user.img_perfil"
+          :src="`${$store.state.apiImages}users/${_user.img_perfil}`"
+          class="avatar"
+        >
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+      </el-upload>
+    </el-tooltip>
+
 	</div>
 </template>
 

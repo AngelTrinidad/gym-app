@@ -150,8 +150,16 @@ export default {
 				type: 'error'
 			}).then(async ()=> {
 				//Confirmed
-				const res = await this.$store.dispatch('producto/delete', producto.id)
-				console.log(res)
+				const res = await this.$store.dispatch('producto/changeState', {
+					id: producto.id,
+					state: 'delete'
+				})
+				if(res.status === 'ok'){
+					this.$message({message: 'Producto eliminado correctamente', type: 'success'})
+					this.dialogVisible = false
+				}else{
+					this.$message.error('Oops. Hubo un error al procesar la acción')
+				}
 			})
 		}
 	},

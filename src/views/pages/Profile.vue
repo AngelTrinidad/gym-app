@@ -3,7 +3,7 @@
 		<div class="card-base card-shadow--medium identity" id="boundary">
 			<div class="cover"></div>
 			<div class="username">
-				<div class="cover-small"></div>
+
 				<div class="avatar-small">
 					<img :src="user.img_perfil
 						? `${$store.state.apiImages}users/${user.img_perfil}`

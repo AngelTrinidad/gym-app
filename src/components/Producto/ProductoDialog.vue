@@ -74,6 +74,7 @@
 			</el-form>
 		</div>
 		<span slot="footer" class="dialog-footer">
+			<el-row>
 			<el-button type="primary" @click="validateBeforeSubmit">
 				{{isCreate ? 'Crear' : 'Actualizar'}}
 			</el-button>
@@ -82,7 +83,11 @@
 				type="danger"
 				v-show="!isCreate"
 				@click="$emit('deleteProducto', producto)"
-			>Eliminar</el-button>
+				class="button-right"
+				icon="el-icon-delete"
+				circle
+			></el-button>
+		</el-row>
 	  </span>
 	</el-dialog>
 </template>
@@ -175,5 +180,8 @@ export default {
 .col-p {
 	padding: 0 10px;
 	box-sizing: border-box;
+}
+.button-right {
+	float: right;
 }
 </style>
