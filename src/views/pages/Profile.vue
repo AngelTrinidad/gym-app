@@ -8,13 +8,23 @@
 					<img :src="user.img_perfil
 						? `${$store.state.apiImages}users/${user.img_perfil}`
 						: '@/assets/images/avatar-2.jpg'" alt="avatar">
+
 				</div>
 				<span>{{fullName | toUpperCaseWords}}</span>
 				<div class="colors-box">
 					<div v-for="i in 5" :key="i" :class="{'color':true, 'active':colorActive}" :style="{'background':color}"></div>
 				</div>
 			</div>
-			<div class="avatar"><img src="@/assets/images/avatar-2.jpg" alt="avatar"></div>
+			<div class="avatar">
+				<!-- poner un onclick en el div hover-change -->
+				<div class="hover-change">
+						<p>
+							<i class="mdi mdi-camera"></i><br />
+							Actualizar
+						</p>
+				</div>
+				<img src="@/assets/images/avatar-2.jpg" alt="avatar">
+			</div>
 			<img src="@/assets/images/cover-2.jpg" id="color-thief" class="color-thief" alt="profile cover">
 		</div>
 		<div class="card-base card-shadow--medium info bg-white black-text">
@@ -90,7 +100,28 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/scss/_variables';
+	.hover-change{
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,.4);
+		position: absolute;
+		text-align: center;
+		color: #fff;
+		transition:.5s;
+		opacity:0;
+		cursor:pointer;
+		margin-top: 50%;
+	}
+	.avatar:hover .hover-change{
+		opacity: 1;
+		transition:.5s;
+	}
+	.hover-change:hover{
+		background: #000;
+	}
+	.hover-change p{
 
+	}
 .page-profile {
 	overflow: auto;
 
