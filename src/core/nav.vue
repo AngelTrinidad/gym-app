@@ -21,6 +21,9 @@
 		<el-menu-item index="/productos">
 			<i class="mdi mdi-cube-outline"></i><span slot="title">Productos</span>
 		</el-menu-item>
+		<el-menu-item index="/servicios">
+			<i class="mdi mdi-dumbbell"></i><span slot="title">Servicios</span>
+		</el-menu-item>
 	</el-menu>
 </template>
 

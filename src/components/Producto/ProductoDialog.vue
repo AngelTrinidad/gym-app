@@ -3,7 +3,7 @@
 		:show-close="true"
 		:visible="visible"
 		@open="openDialog"
-		@close="$emit('cancelFormProducto')"
+		@close="closeDialog"
 		:title="isCreate ? 'Crear Producto' : 'Actualizar Producto'"
 		center
 	>
@@ -32,7 +32,30 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-
+				<h3>Imagen</h3>
+				<el-row>
+					<el-col>
+						<div class="avatar-uploader">
+							<div class="el-upload" @click="$refs.selectPicture.click()">
+								<input
+									type="file"
+									v-show="false"
+									ref="selectPicture"
+									id="selectPicture"
+									@change="fileSelected($event)"
+									accept=".jpg, .jpeg"
+								></input>
+								<img
+									v-if="imgURL"
+									alt="imagen producto"
+									:src="imgURL"
+									class="avatar"
+								>
+								<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+							</div>
+						</div>
+					</el-col>
+				</el-row>
 				<h3>Inventario</h3>
 				<div v-for="sucursal in sucursales" :key="sucursal.id">
 					<el-row>
@@ -76,7 +99,7 @@
 			<el-button type="primary" @click="validateBeforeSubmit">
 				{{isCreate ? 'Crear' : 'Actualizar'}}
 			</el-button>
-			<el-button @click="$emit('cancelFormProducto')">Cancelar</el-button>
+			<el-button @click="closeDialog">Cancelar</el-button>
 			<el-button
 				type="danger"
 				v-show="!isCreate"
@@ -86,12 +109,23 @@
 				circle
 			></el-button>
 	  </span>
+		<crop-image
+			:visible.sync="dialogCrop"
+			:img="producto.img"
+			@cropped="croppedImg($event)"
+			@cancelCrop="cancelCropImg"
+			:anidado="true"
+		></crop-image>
 	</el-dialog>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import CropImage from '@/components/cropImage'
 export default {
+	components: {
+		CropImage
+	},
 	name: 'ProductoDialog',
 	props: {
 		producto: {
@@ -114,8 +148,9 @@ export default {
 	data() {
 		return {
 			sucursales: [],
-			imagePlaceholder: 'data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAAeAAD/4QMvaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjYtYzE0MCA3OS4xNjA0NTEsIDIwMTcvMDUvMDYtMDE6MDg6MjEgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkExM0RGNDdBMzM1QzExRThCNjhCOTFBMEVCQUQzNDYxIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkExM0RGNDc5MzM1QzExRThCNjhCOTFBMEVCQUQzNDYxIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE1IChXaW5kb3dzKSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkRBMUEyQ0NDMjc2QzExRTg5QUMyOTk2OTcxQkYxODMyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkRBMUEyQ0NEMjc2QzExRTg5QUMyOTk2OTcxQkYxODMyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4AIUFkb2JlAGTAAAAAAQMAEAMCAwYAAAWZAAAGSQAACC7/2wCEABALCwsMCxAMDBAXDw0PFxsUEBAUGx8XFxcXFx8eFxoaGhoXHh4jJSclIx4vLzMzLy9AQEBAQEBAQEBAQEBAQEABEQ8PERMRFRISFRQRFBEUGhQWFhQaJhoaHBoaJjAjHh4eHiMwKy4nJycuKzU1MDA1NUBAP0BAQEBAQEBAQEBAQP/CABEIAGQAZAMBIgACEQEDEQH/xACdAAEAAgMBAQAAAAAAAAAAAAAABQYBBAcCAwEBAAMBAAAAAAAAAAAAAAAAAAECAwQQAAEEAgMBAQEAAAAAAAAAAAECAwQFEQYAIDAQQBIRAAIBAgMCCwcFAAAAAAAAAAECAxEEACExYRIgMEFRcYGRodFSExBAsSIyQnKSsiMzBRIAAQQDAQEBAAAAAAAAAAAAAQAgMBEQITFxYYH/2gAMAwEAAhEDEQAAAOgAAHzPo09syAAAACF57IRXRjichFq9f9QE/wA24RIAAHLNGyVvpwGbRebPHSPNuFZAAERLfqVa2dct+x1eKmOuOedBy19CsgAY5b1LnOlIUb5ALzSL/nawDDYABjIgIK+L155I3IjS3SlwAAAAAAAAP//aAAgBAgABBQDxQkAEAgjB6JOU8Ucq+gEkIUnhSs8Ukp6NEZ+OEfz0DihwuK4Tny//2gAIAQMAAQUA8VqyQSOA5HRQweJGB9JxwqSeZSOJUD0czj4jOehQk8/hPn//2gAIAQEAAQUA/E9IYjobtqt1Xlsl+mojypcmY7gcodmlVjrbiHW/DZ5SpN590uSp+l8L0EXX3Q0kVfhutWtif8SlS1UNcayr8JjcN6PYaK8lbek3a10+t11Mrw2C+ap482dLsHod/cQkubhfLTJlSZblDtMqucbcQ632up67Gz66NYKehdVAKF9rUmqX0ZZdfd1fXnKlHYgEWOnVUwv6JZoKdKvFGJoSs11RX1iP3f/aAAgBAgIGPwCH6VRRDRgllBaKokDxbYb7mj+N7jcX/9oACAEDAgY/AIrCtpwGWVsLQv2Xkn//2gAIAQEBBj8A9y355FiTzOwUd+NyO8hdjookUn48WFiAe8mr6SnRQNXbBmupWmkP3Ma06BoOr2LFO7TWJNGQmpjHmQnm5sLJGwZHAZWGhBzB4m6LHKJvSQcwQU+NeAI3NTbyNGPxyZf3cTfA5fzue014E7chnNOpV4kf6CLWC5ADkaLIopn+QHtVEBZ2ICqMySdAMQ2rf20Ly087Zns04lob3cMEvylZCADXTXlwX/zZleM5iKXJhsDitevAVxFGvKxevcowk9xKst23ypI9FVSeSNSde/iRQCS6lr6MR0y+5tgwZryUyudK/SuxV0GAkF0+4Mgj0kUdG/WmN311Tasag99cerdSvM/mclqdHNhYLtmmsjka5vHtU82zswskbBkcBlYaEHMHhz3JNVLFYhzRrkvjwpbGQ1NswMdfI9cuog8IqdCKHDSxAzWJzWQZlNknjwVhhQySuaKiipJw9xctW6nUKyKaqig1ptPDIIqDkQcGSCtpKcyY/oJ2ocuymD6E0Mo5K7yH4MO/FCsSjnMnguAb66G7ypCM/wBT+GN2zhCMcmkPzO3Sxz9//9k='
-			,rules: {
+			dialogCrop: false,
+			imgURL: '',
+			rules: {
 				detalle: [
 					{required: true, message: 'Por favor ingresa un detalle', trigger: 'blur'}
 				],
@@ -133,6 +168,10 @@ export default {
 	},
 	methods: {
 		openDialog(){
+			if(this.$refs['form']) this.$refs['form'].resetFields()
+			if(this.producto.img){
+				 this.imgURL = `${this.$store.state.apiImages}products/${this.producto.img}`
+			}
 			this.$store.dispatch('sucursal/get').then(() => {
 				this.sucursales = []
 				this._sucursales.forEach(sucursal => {
@@ -155,6 +194,23 @@ export default {
 				})
 			})
 		},
+
+		fileSelected(file){
+			const img = file.target.files[0]
+			if(img){
+				this.producto.img = img
+				this.dialogCrop = true
+			}
+			document.querySelector('#selectPicture').value = ''
+		},
+		async croppedImg(img){
+			this.producto.img = img
+			this.imgURL = URL.createObjectURL(img)
+			this.dialogCrop = false
+		},
+		cancelCropImg(){
+			this.dialogCrop = false
+		},
 		updateStock(sucursal){
 			sucursal.cant = 0
 			sucursal.cant_min = 0
@@ -169,6 +225,10 @@ export default {
 					this.$emit('processFormProducto', this.producto)
 				}
 			})
+		},
+		closeDialog(){
+			this.imgURL = ''
+			this.$emit('cancelFormProducto')
 		}
 	}
 }
@@ -180,5 +240,28 @@ export default {
 }
 .button-right {
 	float: right;
+}
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
 }
 </style>

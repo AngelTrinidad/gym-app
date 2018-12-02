@@ -23,9 +23,11 @@ export default {
           detalle: producto.detalle,
           estado: producto.estado,
           precio: producto.precio,
+          total_stock: producto.total_stock ? producto.total_stock : 0,
           created_at: producto.created_at,
           updated_at: producto.updated_at,
           userAlta: producto.userAlta,
+          img: producto.img,
           stock
         }
       })
@@ -64,7 +66,7 @@ export default {
           method: 'GET',
           url: 'all-producto'
         })
-        console.log(data)
+
         if(data.status === 'ok'){
           commit('setProductos', data.body.products)
         }
@@ -75,12 +77,13 @@ export default {
         }
       }
     },
-    create: async ({commit}, producto) => {
+    create: async ({commit}, form) => {
       try {
         const {data} = await Vue.axios({
           method: 'POST',
           url: 'new-producto',
-          data: {producto}
+          data: form,
+          headers: {'Content-Type': 'multipart/form-data' }
         })
         if(data.status === 'ok') commit('addProducto', data.body.producto)
         return data
@@ -91,12 +94,13 @@ export default {
         }
       }
     },
-    update: async ({commit}, producto) => {
+    update: async ({commit}, form) => {
       try {
         const {data} = await Vue.axios({
           method: 'PUT',
           url: 'update-producto',
-          data: {producto}
+          data: form,
+          headers: {'Content-Type': 'multipart/form-data' }
         })
         if(data.status === 'ok') commit('setProducto', data.body.producto)
         return data

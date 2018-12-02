@@ -14,6 +14,7 @@ import auth from './modules/Authentication'
 import sucursal from './modules/Sucursal'
 import user from './modules/User'
 import producto from './modules/Producto'
+import servicio from './modules/Servicio'
 //---- /modules
 
 Vue.use(Vuex)
@@ -85,7 +86,7 @@ export default new Vuex.Store({
 		}
 	},
 	modules: {
-		auth, sucursal, user, producto
+		auth, sucursal, user, producto, servicio
 	},
 	strict: debug,
 	plugins: [vuexLocal.plugin]

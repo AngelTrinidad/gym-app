@@ -9,9 +9,9 @@
 		<div class="flex" style="margin-bottom:10px;">
 			<div class="box">
 				<el-button
-					type="primary"
 					size="medium"
-					@click="dialogVisibleCreate=true"
+					@click="openDialog({}, true)"
+					icon="el-icon-plus"
 				>Crear usuario</el-button>
 			</div>
 		</div>
@@ -48,7 +48,7 @@
 							<el-col :sm="24" :md="12" :lg="12">
 		            <el-button
 		              size="mini"
-		              @click="openDialog(scope.row)"
+		              @click="openDialog(scope.row, false)"
 		            >Editar</el-button>
 							</el-col>
 							<el-col :sm="24" :md="12" :lg="12">
@@ -65,23 +65,18 @@
         </el-table-column>
 			</el-table>
     </div>
-    <el-dialog title="Editar usuario" :visible.sync="dialogVisibleUpdate">
+    <el-dialog
+			:title="createUser ? 'Crear usuario' : 'Modificar usuario'"
+			:visible.sync="dialogVisible"
+			center
+		>
 			<el-row>
 	      <form-user
-	    		:user="userUpdate"
-					:isCreate="false"
-	    		v-on:processFormUser="processUpdate($event)"
-	    		v-on:cancelFormUser="cancelUpdate"
-	    	></form-user>
-			</el-row>
-    </el-dialog>
-		<el-dialog title="Crear usuario" :visible.sync="dialogVisibleCreate">
-			<el-row>
-	      <form-user
-	    		:user="userCreate"
-					:isCreate="true"
-	    		v-on:processFormUser="processCreate($event)"
-	    		v-on:cancelFormUser="cancelCreate"
+					ref="formUser"
+	    		:user="user"
+					:isCreate="createUser"
+	    		v-on:processFormUser="processForm($event)"
+	    		v-on:cancelFormUser="cancelForm"
 	    	></form-user>
 			</el-row>
     </el-dialog>
@@ -100,24 +95,9 @@ export default {
   },
 	data() {
     return {
-      userUpdate: {
-        id: 0,
-        nombre: '',
-        apellido: '',
-        username: '',
-        email: '',
-        sucursal_id: '',
-      },
-			userCreate : {
-        nombre: '',
-        apellido: '',
-        username: '',
-        email: '',
-        sucursal_id: '',
-				password: ''
-			},
-      dialogVisibleUpdate: false,
-			dialogVisibleCreate: false,
+      user: {},
+      dialogVisible: false,
+			createUser: false
     }
   },
   mounted(){
@@ -144,47 +124,45 @@ export default {
         return this.$options.filters.toUpperCaseWords(row.sucursal.detalle)
       }
     },
-    openDialog(user){
-      this.userUpdate = {
-        id: user.id,
-        nombre: this.$options.filters.toUpperCaseWords(user.nombre),
-        apellido: this.$options.filters.toUpperCaseWords(user.apellido),
-        email: user.email,
-        username: this.$options.filters.toUpperCaseWords(user.username),
-        sucursal_id: (user.sucursal.id ? user.sucursal.id : '')
-      }
-      this.dialogVisibleUpdate = true
+    openDialog(user, create){
+			if(this.$refs.formUser) this.$refs.formUser.$refs['form'].resetFields()
+			if(create){
+				this.user = user
+			}else{
+				this.user = {
+	        id: user.id,
+	        nombre: this.$options.filters.toUpperCaseWords(user.nombre),
+	        apellido: this.$options.filters.toUpperCaseWords(user.apellido),
+	        email: user.email,
+	        username: this.$options.filters.toUpperCaseWords(user.username),
+	        sucursal_id: (user.sucursal.id ? user.sucursal.id : '')
+	      }
+			}
+			this.createUser = create
+      this.dialogVisible = true
     },
-    async processUpdate(user){
-      const res = await this._updateUser(user)
-      if(res.status === 'ok'){
-        this.$message({
-					message: 'Usuario actualizado correctamente',
-					type: 'success'
-				})
-        this.dialogVisibleUpdate = false
-      }else{
-        this.$message.error('Oops. Hubo un error al procesar el formulario.')
-      }
+    async processForm(user){
+			let res
+			let message = ''
+
+			if(!user.id){
+				res = await this._createUser(user)
+				message = 'Usuario creado correctamente'
+			}else{
+				res = await this._updateUser(user)
+				message = 'Usuario actualizado correctamente'
+			}
+
+			if(res.status === 'ok'){
+				this.$message({message, type: 'success'})
+				this.dialogVisible = false
+			}else{
+				this.$message.error('Oops. Hubo un error al procesar el formulario.')
+			}
     },
-    cancelUpdate(){
-      this.dialogVisibleUpdate = false
+    cancelForm(){
+      this.dialogVisible = false
     },
-		async processCreate(user){
-			const res = await this._createUser(user)
-      if(res.status === 'ok'){
-        this.$message({
-					message: 'Usuario creado correctamente. Su password fue enviado al correo especificado',
-					type: 'success'
-				})
-        this.dialogVisibleCreate = false
-      }else{
-        this.$message.error('Oops. Hubo un error al procesar el formulario.')
-      }
-		},
-		cancelCreate(){
-			this.dialogVisibleCreate = false
-		},
     async changeStatus(user){
       const res = await this._changeStatusUser(user.id)
       if(res.status === 'ok'){

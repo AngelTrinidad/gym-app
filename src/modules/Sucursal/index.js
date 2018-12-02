@@ -12,10 +12,12 @@ export default {
       state.sucursales.push(payload)
     },
     setSucursal: (state, payload) => {
-      state.sucursales = state.sucursales.map(sucursal => {
-        if(sucursal.id === payload.id) return payload
-        else return sucursal
-      })
+      if(payload.estado == 2){
+        state.sucursales = state.sucursales.filter(sucursal => sucursal.id !== payload.id)
+      }else{
+        state.sucursales = state.sucursales
+          .map(sucursal => sucursal.id === payload.id ? payload : sucursal)
+      }
     }
   },
   actions: {
@@ -62,12 +64,15 @@ export default {
         }
       }
     },
-    changeStatus: async ({commit}, id) => {
+    changeState: async ({commit}, payload) => {
       try {
         const {data} = await Vue.axios({
           method: 'PUT',
           url: 'change-state-sucursal',
-          data: {sucursal_id: id}
+          data: {
+            sucursal_id: payload.id,
+            new_state: payload.state
+          }
         })
         commit('setSucursal', data.body.sucursal)
         return data

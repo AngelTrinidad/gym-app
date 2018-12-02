@@ -10,6 +10,7 @@ import Profile from './views/pages/Profile.vue'
 import Users from './views/pages/Users.vue'
 import Sucursales from './views/pages/Sucursales.vue'
 import Productos from './views/pages/Productos.vue'
+import Servicios from './views/pages/Servicios.vue'
 
 Vue.use(Router)
 
@@ -113,6 +114,19 @@ const router = new Router({
 				searchable: true,
 				tags: ['producto', 'productos'],
 				title: 'Productos'
+			}
+		},
+		{
+			path: '/servicios',
+			alias: 'servicios',
+			name: 'servicios',
+			component: Servicios,
+			meta: {
+				auth: true,
+				layout: layouts.navLeft,
+				searchable: true,
+				tags: ['servicios', 'servicio'],
+				title: 'Servicios'
 			}
 		},
 		{

@@ -171,7 +171,8 @@ export default {
     })
 		this.resizeLabelPosition()
 		window.addEventListener('resize', this.resizeLabelPosition)
-
+	},
+	activated(){
 	},
 	beforeDestroy() {
 		window.removeEventListener('resize', this.resizeLabelPosition)

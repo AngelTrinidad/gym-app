@@ -6,6 +6,7 @@
     @close="$emit('cancelCrop')"
     title="Elegir imagen en miniatura"
     center
+    :append-to-body="anidado"
   >
     <el-row>
       <el-col>
@@ -46,6 +47,10 @@ export default {
     visible: {
       type: Boolean,
       default: false
+    },
+    anidado: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -66,7 +71,6 @@ export default {
       this.$refs.cropper.getCroppedCanvas().toBlob(blob => {
         this.$emit('cropped', blob)
       })
-
     }
   }
 }

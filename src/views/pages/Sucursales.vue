@@ -9,8 +9,8 @@
 		<div class="flex" style="margin-bottom:10px;">
 			<div class="box">
 				<el-button
-					type="primary"
 					size="medium"
+					icon="el-icon-plus"
 					@click="dialogVisibleCreate = true"
 				>Crear Sucursal</el-button>
 			</div>
@@ -29,22 +29,20 @@
         </el-col>
       </el-row>
 		</div>
-		<el-dialog title="Crear sucursal" :visible.sync="dialogVisibleCreate">
-			<el-row>
-	      <form-sucursal
-	    		:sucursal="sucursalCreate"
-					:isCreate="true"
-	    		v-on:processFormSucursal="processCreate($event)"
-	    		v-on:cancelFormSucursal="cancelCreate"
-	    	></form-sucursal>
-			</el-row>
-    </el-dialog>
+
+    <sucursal-dialog
+  		:sucursal="sucursalCreate"
+			:isCreate="true"
+			:visible.sync="dialogVisibleCreate"
+  		v-on:processFormSucursal="processCreate($event)"
+  		v-on:cancelFormSucursal="cancelCreate"
+  	></sucursal-dialog>
 	</div>
 </template>
 
 <script>
 import SucursalCard from '@/components/Sucursal/SucursalCard'
-import FormSucursal from '@/components/Sucursal/FormSucursal'
+import SucursalDialog from '@/components/Sucursal/SucursalDialog'
 import PageHeader from '@/core/page-header'
 import {mapGetters} from 'vuex'
 
@@ -62,7 +60,7 @@ export default {
 		}
 	},
   components: {
-    SucursalCard,FormSucursal,PageHeader
+    SucursalCard,SucursalDialog,PageHeader
   },
   computed: {
     ...mapGetters({

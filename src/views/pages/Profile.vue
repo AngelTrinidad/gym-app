@@ -14,7 +14,6 @@
 				</div>
 			</div>
 			<div class="avatar">
-				<!-- poner un onclick en el div hover-change -->
 				<div class="hover-change" @click="$refs.selectPictureProfile.click()">
 					<input
 						type="file"

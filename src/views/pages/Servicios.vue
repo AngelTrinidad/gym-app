@@ -1,14 +1,14 @@
 <template>
-	<div class="page-productos flex column" id="page-productos">
+	<div class="page-servicios flex column" id="page-servicios">
 		<resize-observer @notify="__resizeHanlder" />
 		<page-header
 			:items="[
-				{text: 'Productos'}
+				{text: 'Servicios'}
 			]"
 		></page-header>
-		<div class="contacts-root box grow flex gaps justify-center" :class="productsClass">
+		<div class="contacts-root box grow flex gaps justify-center" :class="servicioClass">
 			<div class="card-base card-shadow--small search-card scrollable only-y">
-				<h1 class="mt-0">Productos</h1>
+				<h1 class="mt-0">Servicios</h1>
 
 				<el-input
 					prefix-icon="el-icon-search"
@@ -19,68 +19,60 @@
 				</el-input>
 
 				<div class="o-050 text-right mt-10 mb-30">
-					<strong>{{cantProductos}}</strong> {{cantProductos !== 1 ? 'productos' : 'producto'}}
+					<strong>{{cantServicios}}</strong> {{cantServicios === 1 ? 'servicio' : 'servicios'}}
 				</div>
 
 				<el-button
 					icon="el-icon-plus"
 					@click="openDialog({}, true)"
-				> Agregar producto</el-button>
+				> Agregar servicio</el-button>
 			</div>
 			<div class="contacts-list box grow scrollable only-y">
 				<div
-					v-for="producto in _productos"
-					:key="producto.id"
+					v-for="servicio in _servicios"
+					:key="servicio.id"
 					class="flex contact"
-					@click="openDialog(producto, false)">
-					<div class="avatar align-vertical">
-						<img
-							:src="producto.img ? `${$store.state.apiImages}products/${producto.img}` : '/static/images/products/default-product.png'"
-							class="align-vertical-middle"
-							alt="imagen del producto"
-						>
-					</div>
+					@click="openDialog(servicio, false)">
 					<div class="info box grow flex">
 						<div class="name box grow flex column justify-center p-10">
-							<div class="fullname fs-18"><strong>{{producto.detalle | toUpperCaseWords}}</strong></div>
-							<div class="precio fs-14 secondary-text">{{producto.precio | separator}} Gs.</div>
-							<div class="estado fs-14 secondary-text">{{`Total en stock: ${producto.total_stock}`}}</div>
+							<div class="fullname fs-18"><strong>{{servicio.detalle | toUpperCaseWords}}</strong></div>
+							<div class="precio fs-14 secondary-text">{{servicio.precio | separator}} Gs.</div>
 						</div>
-						<div class="precio align-vertical p-10"><span class="align-vertical-middle">{{producto.precio | separator}} Gs.</span></div>
+						<div class="precio align-vertical p-10"><span class="align-vertical-middle">{{servicio.precio | separator}} Gs.</span></div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<producto-dialog
-			:producto="producto"
+		<servicio-dialog
+			:servicio="servicio"
 			:visible.sync="dialogVisible"
-			@processFormProducto="processForm($event)"
-			@cancelFormProducto="cancelForm"
-			@deleteProducto="deleteProducto($event)"
-			:isCreate="createProduct"
-		></producto-dialog>
+			@processFormServicio="processForm($event)"
+			@cancelFormServicio="cancelForm"
+			@deleteServicio="deleteServicio($event)"
+			:isCreate="createServicio"
+		></servicio-dialog>
 	</div>
 </template>
 
 <script>
 import PageHeader from '@/core/page-header'
 import {mapGetters, mapMutations} from 'vuex'
-import ProductoDialog from '@/components/Producto/ProductoDialog'
+import ServicioDialog from '@/components/Servicio/ServicioDialog'
 
 export default {
-	name: 'Productos',
+	name: 'Servicios',
 	data() {
 		return {
 			dialogVisible: false,
 			pageWidth: 0,
-			producto: {},
-			createProduct: true,
+			servicio: {},
+			createServicio: true,
 		}
 	},
 	computed: {
 		...mapGetters({
-			_search: 'producto/search',
-			_productos: 'producto/filter'
+			_search: 'servicio/search',
+			_servicios: 'servicio/filter'
 		}),
 		search: {
 			get(){
@@ -90,63 +82,49 @@ export default {
 				this._setSearch(value)
 			}
 		},
-		cantProductos(){
-			return this._productos.length
+		cantServicios(){
+			return this._servicios.length
 		},
-		productsClass() {
+		servicioClass() {
 			return this.pageWidth >= 870 ? 'large' : this.pageWidth >= 760 ? 'medium' : 'small'
 		}
 	},
 	methods: {
 		...mapMutations({
-			_setSearch: 'producto/setSearch',
-			_clearSearch: 'producto/clearSearch'
+			_setSearch: 'servicio/setSearch',
+			_clearSearch: 'servicio/clearSearch'
 		}),
 		setPageWidth() {
-			this.pageWidth = document.getElementById('page-productos').offsetWidth
+			this.pageWidth = document.getElementById('page-servicios').offsetWidth
 		},
 		__resizeHanlder: _.throttle(function (e) {
 			this.setPageWidth()
 		}, 700),
-		openDialog(product, create){
+		openDialog(servicio, create){
 			if(!create){
-				this.producto = {
-					id: product.id,
-          detalle: product.detalle,
-          estado: product.estado,
-          precio: product.precio,
-          stock: product.stock,
-					img: product.img
+				this.servicio = {
+					id: servicio.id,
+          detalle: servicio.detalle,
+          estado: servicio.estado,
+          precio: servicio.precio
 				}
 			}else{
-				this.producto = product
+				this.servicio = servicio
 			}
 			this.dialogVisible = true
-			this.createProduct = create
+			this.createServicio = create
 		},
-		async processForm(product){
+		async processForm(servicio){
 			let res
 			let message = ''
-			let formData = new FormData()
 
-			Object.keys(product).forEach( key => {
-				if(key === 'sucursales'){
-					formData.append(key, JSON.stringify(product[key]))
-				}else{
-					formData.append(key, product[key])
-				}
-			})
-
-			if(!product.id){
-				res = await this.$store.dispatch('producto/create', formData)
-				message = 'Producto creado correctamente'
+			if(!servicio.id){
+				res = await this.$store.dispatch('servicio/create', servicio)
+				message = 'Servicio creado correctamente'
 			}else{
-				console.log('Procesando update...')
-				res = await this.$store.dispatch('producto/update', formData)
-				console.log(res)
-				message = 'Producto actualizado correctamente'
+				res = await this.$store.dispatch('servicio/update', servicio)
+				message = 'Servicio actualizado correctamente'
 			}
-
 			if(res.status === 'ok'){
 				this.$message({message, type: 'success'})
 				this.dialogVisible = false
@@ -157,19 +135,19 @@ export default {
 		cancelForm(){
 			this.dialogVisible = false
 		},
-		deleteProducto(producto){
-			this.$confirm('Esto eliminará el producto, ¿está seguro?', 'Confirmación', {
+		deleteServicio(servicio){
+			this.$confirm('Esto eliminará el servicio, ¿está seguro?', 'Confirmación', {
 				confirmButtonText: 'Confirmar',
 				cancelButtonText: 'Cancelar',
 				type: 'error'
 			}).then(async ()=> {
 				//Confirmed
-				const res = await this.$store.dispatch('producto/changeState', {
-					id: producto.id,
+				const res = await this.$store.dispatch('servicio/changeState', {
+					id: servicio.id,
 					state: 'delete'
 				})
 				if(res.status === 'ok'){
-					this.$message({message: 'Producto eliminado correctamente', type: 'success'})
+					this.$message({message: 'Servicio eliminado correctamente', type: 'success'})
 					this.dialogVisible = false
 				}else{
 					this.$message.error('Oops. Hubo un error al procesar la acción')
@@ -179,10 +157,10 @@ export default {
 	},
 	mounted() {
 		this.setPageWidth()
-		this.$store.dispatch('producto/get')
+		this.$store.dispatch('servicio/get')
 	},
 	components: {
-		PageHeader, ProductoDialog
+		PageHeader, ServicioDialog
 	}
 }
 </script>
@@ -190,7 +168,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../assets/scss/_variables';
 
-.page-productos {
+.page-servicios {
 	height: 100%;
 	margin: 0 !important;
 	padding: 20px;
@@ -381,7 +359,7 @@ export default {
 }
 
 @media (max-width: 768px) {
-	.page-productos {
+	.page-servicios {
 		.search-wrap {
 			padding: 0;
 		}
