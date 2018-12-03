@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import layouts from './layout'
 import store from './store'
 import Dashboard from './views/apps/Dashboard.vue'
+import Cuota from './views/pages/Cuotas.vue'
 import Login from './views/pages/authentication/Login.vue'
 import ForgotPassword from './views/pages/authentication/ForgotPassword.vue'
 import ChangePassword from './views/pages/authentication/ChangePassword.vue'
@@ -141,6 +142,19 @@ const router = new Router({
 				searchable: true,
 				tags: ['cliente', 'clientes'],
 				title: 'Clientes'
+			}
+		},
+		{
+			path: '/cuota/',
+			alias: 'cuota',
+			name: 'Cuotas',
+			component: Cuota,
+			meta: {
+				auth: true,
+				layout: layouts.navLeft,
+				searchable: true,
+				tags: ['cuota', 'pagar'],
+				title: 'Cuotas'
 			}
 		},
 		{
