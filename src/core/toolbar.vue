@@ -21,7 +21,7 @@
 			<span class="username"><router-link to="/profile">{{fullName | toUpperCaseWords}}</router-link></span>
 			<el-dropdown trigger="click" @command="onCommand">
 				<span class="el-dropdown-link">
-					<img :src="user.img_perfil ? `${$store.state.apiImages}users/${user.img_perfil}` : '../assets/images/avatar-2.jpg'" class="avatar" alt="avatar">
+					<img :src="user.img_perfil ? `${$store.state.apiImages}users/${user.img_perfil}` : '/static/images/default-person.jpg'" class="avatar" alt="avatar">
 				</span>
 				<el-dropdown-menu slot="dropdown">
 					<el-dropdown-item command="/profile"><i class="mdi mdi-account mr-10"></i> Perfil</el-dropdown-item>

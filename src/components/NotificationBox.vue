@@ -50,7 +50,7 @@ export default {
 
 .notification-box {
 	color: $text-color;
-	
+
 	.notify {
 		margin-bottom: 20px;
 		max-height: 70px;
@@ -93,4 +93,3 @@ export default {
 	}
 }
 </style>
-

@@ -30,7 +30,7 @@
 				</div>
 				<img :src="user.img_perfil
 					? `${$store.state.apiImages}users/${user.img_perfil}`
-					: '@/assets/images/avatar-2.jpg'" alt="avatar">
+					: '/static/images/default-person.jpg'" alt="avatar">
 			</div>
 			<img src="@/assets/images/cover-2.jpg" id="color-thief" class="color-thief" alt="profile cover">
 		</div>

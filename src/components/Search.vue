@@ -5,7 +5,7 @@
 		popper-class="search-box-popper card-base card-shadow--small"
 		v-model="search"
 		:fetch-suggestions="querySearch"
-		placeholder="Search..."
+		placeholder="Buscar..."
 		:trigger-on-focus="true"
 		clearable
 		prefix-icon="el-icon-search"
@@ -82,7 +82,7 @@ export default {
 			if(check)
 				this.flatten(newList, key, cb)
 			else
-				cb(newList)				
+				cb(newList)
 
 			return true
 		},
@@ -96,7 +96,7 @@ export default {
 					let tags = ''
 					if(list[k].meta.tags && list[k].meta.tags.length)
 						tags = list[k].meta.tags.join(', ')
-					
+
 					let meta = name+value+tags
 
 					if(value) {
@@ -161,12 +161,12 @@ export default {
 			line-height: 33px;
 			border-bottom-color: transparentize($text-color-accent, .8);
 			transition: all .5s;
-			
+
 			&:hover {
 				border-color: transparent;
 			}
 			&:focus {
-				border-color: $text-color-accent; 
+				border-color: $text-color-accent;
 			}
 			&:hover, &:active, &:focus {
 				border-radius: 5px;
@@ -206,4 +206,3 @@ export default {
 	}
 }
 </style>
-

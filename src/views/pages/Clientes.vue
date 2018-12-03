@@ -1,14 +1,14 @@
 <template>
-	<div class="page-productos flex column" id="page-productos">
+	<div class="page-clientes flex column" id="page-clientes">
 		<resize-observer @notify="__resizeHanlder" />
 		<page-header
 			:items="[
-				{text: 'Productos'}
+				{text: 'Clientes'}
 			]"
 		></page-header>
-		<div class="contacts-root box grow flex gaps justify-center" :class="productsClass">
+		<div class="contacts-root box grow flex gaps justify-center" :class="clientesClass">
 			<div class="card-base card-shadow--small search-card scrollable only-y">
-				<h1 class="mt-0">Productos</h1>
+				<h1 class="mt-0">Clientes</h1>
 
 				<el-input
 					prefix-icon="el-icon-search"
@@ -18,68 +18,58 @@
 				></el-input>
 
 				<div class="o-050 text-right mt-10 mb-30">
-					<strong>{{cantProductos}}</strong> {{cantProductos !== 1 ? 'productos' : 'producto'}}
+					<strong>{{cantClientes}}</strong> {{cantClientes !== 1 ? 'clientes' : 'cliente'}}
 				</div>
 
 				<el-button
 					icon="el-icon-plus"
 					@click="openDialog({}, true)"
-				> Agregar producto</el-button>
+				> Agregar cliente</el-button>
 			</div>
 			<div class="contacts-list box grow scrollable only-y">
 				<div
-					v-for="producto in _productos"
-					:key="producto.id"
+					v-for="cliente in _clientes"
+					:key="cliente.id"
 					class="flex contact"
-					@click="openDialog(producto, false)">
+					@click="openDialog(cliente, false)">
 					<div class="avatar align-vertical">
 						<img
-							:src="producto.img ? `${$store.state.apiImages}products/${producto.img}` : '/static/images/products/default-product.png'"
+							:src="cliente.img ? `${$store.state.apiImages}clientes/${cliente.img}` : '/static/images/default-person.jpg'"
 							class="align-vertical-middle"
-							alt="imagen del producto"
+							alt="imagen del cliente"
 						>
 					</div>
 					<div class="info box grow flex">
 						<div class="name box grow flex column justify-center p-10">
-							<div class="fullname fs-18"><strong>{{producto.detalle | toUpperCaseWords}}</strong></div>
-							<div class="precio fs-14 secondary-text">{{producto.precio | separator}} Gs.</div>
-							<div class="estado fs-14 secondary-text">{{`Total en stock: ${producto.total_stock}`}}</div>
+							<div class="fullname fs-18"><strong>{{`${cliente.nombre} ${cliente.apellido}` | toUpperCaseWords}}</strong></div>
+							<div class="precio fs-14 secondary-text">{{cliente.nro_documento}}</div>
+							<div class="estado fs-14 secondary-text">{{`Servicios: ${cliente.__meta__.total_servicios}`}}</div>
+							<div class="estado fs-14 secondary-text" v-show="cliente.ingresos.length !== 0">{{`Ultimo ingreso: ${cliente.ingresos[0].created_at}`}}</div>
 						</div>
-						<div class="precio align-vertical p-10"><span class="align-vertical-middle">{{producto.precio | separator}} Gs.</span></div>
+						<div class="precio align-vertical p-10"><span class="align-vertical-middle">{{cliente.nro_documento}}</span></div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<producto-dialog
-			:producto="producto"
-			:visible.sync="dialogVisible"
-			@processFormProducto="processForm($event)"
-			@cancelFormProducto="cancelForm"
-			@deleteProducto="deleteProducto($event)"
-			:isCreate="createProduct"
-		></producto-dialog>
 	</div>
 </template>
 
 <script>
 import PageHeader from '@/core/page-header'
 import {mapGetters, mapMutations} from 'vuex'
-import ProductoDialog from '@/components/Producto/ProductoDialog'
 
 export default {
-	name: 'Productos',
+	name: 'Clientes',
 	data() {
 		return {
 			dialogVisible: false,
 			pageWidth: 0,
-			producto: {},
-			createProduct: true,
 		}
 	},
 	computed: {
 		...mapGetters({
-			_search: 'producto/search',
-			_productos: 'producto/filter'
+			_search: 'cliente/search',
+			_clientes: 'cliente/filter'
 		}),
 		search: {
 			get(){
@@ -89,63 +79,34 @@ export default {
 				this._setSearch(value)
 			}
 		},
-		cantProductos(){
-			return this._productos.length
+		cantClientes(){
+			return this._clientes.length
 		},
-		productsClass() {
+		clientesClass() {
 			return this.pageWidth >= 870 ? 'large' : this.pageWidth >= 760 ? 'medium' : 'small'
 		}
 	},
 	methods: {
 		...mapMutations({
-			_setSearch: 'producto/setSearch',
-			_clearSearch: 'producto/clearSearch'
+			_setSearch: 'cliente/setSearch',
+			_clearSearch: 'cliente/clearSearch'
 		}),
 		setPageWidth() {
-			this.pageWidth = document.getElementById('page-productos').offsetWidth
+			this.pageWidth = document.getElementById('page-clientes').offsetWidth
 		},
 		__resizeHanlder: _.throttle(function (e) {
 			this.setPageWidth()
 		}, 700),
-		openDialog(product, create){
-			if(!create){
-				this.producto = {
-					id: product.id,
-          detalle: product.detalle,
-          estado: product.estado,
-          precio: product.precio,
-          stock: product.stock,
-					img: product.img
-				}
-			}else{
-				this.producto = product
-			}
+		openDialog(cliente){
 			this.dialogVisible = true
-			this.createProduct = create
 		},
-		async processForm(product){
-			let res
-			let message = ''
+		async processForm(cliente){
 			let formData = new FormData()
-
-			Object.keys(product).forEach( key => {
-				if(key === 'sucursales'){
-					formData.append(key, JSON.stringify(product[key]))
-				}else{
-					formData.append(key, product[key])
-				}
-			})
-
-			if(!product.id){
-				res = await this.$store.dispatch('producto/create', formData)
-				message = 'Producto creado correctamente'
-			}else{
-				res = await this.$store.dispatch('producto/update', formData)
-				message = 'Producto actualizado correctamente'
-			}
+			Object.keys(cliente).forEach( key => formData.append(key, cliente[key]))
+			const res = await this.$store.dispatch('cliente/create', formData)
 
 			if(res.status === 'ok'){
-				this.$message({message, type: 'success'})
+				this.$message({message: 'Producto creado correctamente', type: 'success'})
 				this.dialogVisible = false
 			}else{
 				this.$message.error('Oops. Hubo un error al procesar el formulario.')
@@ -153,33 +114,14 @@ export default {
 		},
 		cancelForm(){
 			this.dialogVisible = false
-		},
-		deleteProducto(producto){
-			this.$confirm('Esto eliminará el producto, ¿está seguro?', 'Confirmación', {
-				confirmButtonText: 'Confirmar',
-				cancelButtonText: 'Cancelar',
-				type: 'error'
-			}).then(async ()=> {
-				//Confirmed
-				const res = await this.$store.dispatch('producto/changeState', {
-					id: producto.id,
-					state: 'delete'
-				})
-				if(res.status === 'ok'){
-					this.$message({message: 'Producto eliminado correctamente', type: 'success'})
-					this.dialogVisible = false
-				}else{
-					this.$message.error('Oops. Hubo un error al procesar la acción')
-				}
-			})
 		}
 	},
 	mounted() {
 		this.setPageWidth()
-		this.$store.dispatch('producto/get')
+		this.$store.dispatch('cliente/get')
 	},
 	components: {
-		PageHeader, ProductoDialog
+		PageHeader
 	}
 }
 </script>
@@ -187,7 +129,7 @@ export default {
 <style lang="scss" scoped>
 @import '../../assets/scss/_variables';
 
-.page-productos {
+.page-clientes {
 	height: 100%;
 	margin: 0 !important;
 	padding: 20px;
@@ -378,7 +320,7 @@ export default {
 }
 
 @media (max-width: 768px) {
-	.page-productos {
+	.page-clientes {
 		.search-wrap {
 			padding: 0;
 		}
