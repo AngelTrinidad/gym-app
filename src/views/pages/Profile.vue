@@ -281,6 +281,9 @@ export default {
 
 @media (max-width: 768px) {
 	.page-profile {
+		.hover-change{
+			margin-top: 20%;
+		}
 		.identity {
 			height: auto;
 
