@@ -1,8 +1,6 @@
 <template>
 	<vue-scroll class="page-dashboard">
 
-
-
 		<el-row class="mt-0" :gutter="30">
 			<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
 				<div class="card-base card-shadow--medium mb-30 widget small-widget" v-loading="!asyncComponent">

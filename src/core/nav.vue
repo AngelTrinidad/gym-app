@@ -9,17 +9,42 @@
 		class="main-navigation-menu"
 		:class="{'nav-collapsed':isCollapse}"
 	>
+		<div class="el-menu-item-group__title" style="padding-top: 4px;"><span>Módulos</span></div>
 		<el-menu-item index="/">
 			<i class="mdi mdi-home-outline"></i><span slot="title">Inicio</span>
+		</el-menu-item>
+		<el-menu-item index="/cuota">
+			<i class="mdi mdi-format-list-numbers"></i><span slot="title">Cuota</span>
+		</el-menu-item>
+		<el-menu-item index="/socios">
+			<i class="mdi mdi-account-card-details"></i><span slot="title">Socios</span>
+		</el-menu-item>
+		<el-menu-item index="/productos">
+			<i class="mdi mdi-food-apple"></i><span slot="title">Productos</span>
+		</el-menu-item>
+		<el-submenu index="ingreso" popper-class="main-navigation-submenu">
+			<template slot="title">
+				<i class="mdi mdi-login-variant"></i><span>Ingreso</span>
+			</template>
+			<el-menu-item index="/ingreso/opcion1">
+				<span slot="title">opcion 1</span>
+			</el-menu-item>
+			<el-menu-item index="/ingreso/opcion2">
+				<span slot="title">opcion 2</span>
+			</el-menu-item>
+		</el-submenu>
+		<div class="el-menu-item-group__title" style="padding-top: 4px;"><span>Control interno</span></div>
+		<el-menu-item index="/caja">
+			<i class="mdi mdi-cash-100"></i><span slot="title">Caja</span>
+		</el-menu-item>
+		<el-menu-item index="/personal">
+			<i class="mdi mdi-account-settings"></i><span slot="title">Personal</span>
 		</el-menu-item>
 		<el-menu-item index="/users">
 			<i class="mdi mdi-account-multiple-outline"></i><span slot="title">Usuarios</span>
 		</el-menu-item>
 		<el-menu-item index="/sucursales">
-			<i class="mdi mdi-domain"></i><span slot="title">Sucursales</span>
-		</el-menu-item>
-		<el-menu-item index="/productos">
-			<i class="mdi mdi-cube-outline"></i><span slot="title">Productos</span>
+			<i class="mdi mdi-home-map-marker"></i><span slot="title">Sucursales</span>
 		</el-menu-item>
 		<el-menu-item index="/servicios">
 			<i class="mdi mdi-dumbbell"></i><span slot="title">Servicios</span>
@@ -27,6 +52,17 @@
 		<el-menu-item index="/clientes">
 			<i class="mdi mdi-account-card-details"></i><span slot="title">Clientes</span>
 		</el-menu-item>
+		<el-submenu index="reportes" popper-class="main-navigation-submenu">
+			<template slot="title">
+				<i class="mdi mdi-chart-areaspline"></i><span>Reportes</span>
+			</template>
+			<el-menu-item index="/reportes/opcion1">
+				<span slot="title">opcion 1</span>
+			</el-menu-item>
+			<el-menu-item index="/reportes/opcion2">
+				<span slot="title">opcion 2</span>
+			</el-menu-item>
+		</el-submenu>
 	</el-menu>
 </template>
 

@@ -1,12 +1,9 @@
 <template>
 	<vue-scroll class="page-dashboard">
 
-		<resize-observer @notify="__resizeHanlder" />
-
 		<el-row class="mt-0" :gutter="30">
 			<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6">
 				<div class="card-base card-shadow--medium mb-30 widget small-widget" v-loading="!asyncComponent">
-
 					<div class="widget-header ph-20 pt-20">
 						<div class="flex justify-center align-center">
 							<div class="widget-icon-box mr-20 animated fadeInRight">
@@ -16,8 +13,8 @@
 								</div>
 							</div>
 							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Users</div>
-								<h2 class="m-0 text-truncate">4,523</h2>
+								<div class="o-050 widget-title text-truncate pt-5 pb-10">Socios nuevos</div>
+								<h2 class="m-0 text-truncate">4</h2>
 							</div>
 						</div>
 					</div>
@@ -31,14 +28,14 @@
 					<div class="widget-header ph-20 pt-20">
 						<div class="flex justify-center align-center">
 							<div class="widget-icon-box mr-20 animated fadeInRight">
-								<i class="widget-icon mdi mdi-eye accent-text fs-30"></i>
+								<i class="widget-icon mdi mdi-login-variant accent-text fs-30"></i>
 								<div class="badge-box">
 									<span class="badge"><i class="mdi mdi-trending-up success-text mr-10"></i><strong class="accent-text">11%</strong></span>
 								</div>
 							</div>
 							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Views</div>
-								<h2 class="m-0 text-truncate">2,523</h2>
+								<div class="o-050 widget-title text-truncate pt-5 pb-10">Ingresos hoy</div>
+								<h2 class="m-0 text-truncate">25</h2>
 							</div>
 						</div>
 					</div>
@@ -58,8 +55,8 @@
 								</div>
 							</div>
 							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Conversion</div>
-								<h2 class="m-0 text-truncate">9,832</h2>
+								<div class="o-050 widget-title text-truncate pt-5 pb-10">Cuotas a renovar</div>
+								<h2 class="m-0 text-truncate">9</h2>
 							</div>
 						</div>
 					</div>
@@ -79,8 +76,8 @@
 								</div>
 							</div>
 							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Revenue</div>
-								<h2 class="m-0 text-truncate">6,364</h2>
+								<div class="o-050 widget-title text-truncate pt-5 pb-10">Cobrado en caja</div>
+								<h2 class="m-0 text-truncate">634.000</h2>
 							</div>
 						</div>
 					</div>
@@ -88,188 +85,36 @@
 					<component :is="asyncComponent" :type="'bar'" :options='{ width: "100%", height: 80, fill: ["#56f19a"] }' :data="[6, 5, 4, 3, 5, 3, 4, 5, 6, 5, 4, 2, 3, 8, 7, 6, 5, 2, 1, 5].toString()"/>
 				</div>
 			</el-col>
-			<!--<el-col :xs="24" :sm="12" :md="8" :lg="4" :xl="4">
-				<div class="card-base card-shadow--medium mb-30 widget small-widget" v-loading="!asyncComponent">
-
-					<div class="widget-header ph-20 pt-20">
-						<div class="flex justify-center align-center">
-							<div class="widget-icon-box mr-20 animated fadeInRight">
-								<i class="widget-icon mdi mdi-message-text-outline danger-text fs-30"></i>
-								<div class="badge-box">
-									<span class="badge"><i class="mdi mdi-trending-down danger-text mr-10"></i><strong class="danger-text">23%</strong></span>
-								</div>
-							</div>
-							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Messages</div>
-								<h2 class="m-0 text-truncate">52,628</h2>
-							</div>
-						</div>
-					</div>
-
-					<component :is="asyncComponent" :type="'line'" :options='{ width: "100%", height: 80, fill: "#EF5F8B", stroke: "#CF2256" }' :data="[9, 7, 5, 4, 4, 8, 3, 4, 6, 5, 4, 6, 5, 7, 3, 2, 4, 3, 2, 1].toString()"/>
-				</div>
-			</el-col>
-			<el-col :xs="24" :sm="12" :md="8" :lg="4" :xl="4">
-				<div class="card-base card-shadow--medium mb-30 widget small-widget" v-loading="!asyncComponent">
-
-					<div class="widget-header ph-20 pt-20">
-						<div class="flex justify-center align-center">
-							<div class="widget-icon-box mr-20 animated fadeInRight">
-								<i class="widget-icon mdi mdi-cart danger-text fs-30"></i>
-								<div class="badge-box">
-									<span class="badge"><i class="mdi mdi-trending-down danger-text mr-10"></i><strong class="danger-text">9%</strong></span>
-								</div>
-							</div>
-							<div class="widget-info box grow text-truncate animated fadeInLeft">
-								<div class="o-050 widget-title text-truncate pt-5 pb-10">Purchases</div>
-								<h2 class="m-0 text-truncate">3,346</h2>
-							</div>
-						</div>
-					</div>
-
-					<component :is="asyncComponent" :type="'bar'" :options='{ width: "100%", height: 80, fill: ["#EF5F8B"] }' :data="[1, 2, 3, 4, 5, 4, 3, 2, 1, 2, 3, 4, 5, 4, 3, 2, 1, 2, 3, 4].toString()"/>
-				</div>
-			</el-col>-->
 		</el-row>
-
-		<el-row class="mt-0" :gutter="30">
-			<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-				<div class="card-base card-shadow--medium bg-accent p-20" style="height:400px" v-loading="!asyncChart1">
-					<h1 class="white-text mv-0 animated fadeInDown">Statistics</h1>
-					<h3 class="mt-0 mb-40 white-text o-050 animated slideInUp">revenue</h3>
-					<div id="chart1" style="height:300px; width:100%"></div>
-				</div>
+		<el-row class="demo-autocomplete">
+			<el-col :xs="24" :lg="24">
+				<div class="sub-title">Buscador rápido de socio</div>
+				<el-autocomplete prefix-icon="el-icon-search" id="buscarSocio" class="inline-input" v-model="state2" :fetch-suggestions="querySearch" placeholder="Ingresar nombre o ci" :trigger-on-focus="false" @select="handleSelect"></el-autocomplete>
 			</el-col>
 		</el-row>
-
-		<el-row class="mt-30" :gutter="30">
-			<el-col :xs="24" :sm="12" :md="14" :lg="16" :xl="18">
-				<vue-scroll class="card-base card-shadow--medium mb-30" style="height:410px">
-					<div class="p-20 flex justify-space-between">
-						<div>
-							<h2 class="mv-0 animated fadeInDown">Progress</h2>
-							<h4 class="mt-5 mb-0 o-050 animated slideInUp">This month</h4>
-						</div>
-						<div class="radio-switcher">
-							<el-radio-group v-model="radio1">
-								<el-radio-button label="Day"></el-radio-button>
-								<el-radio-button label="Week"></el-radio-button>
-								<el-radio-button label="Month"></el-radio-button>
-							</el-radio-group>
-						</div>
-					</div>
-					<table class="styled striped">
-						<thead>
-							<tr>
-								<th></th>
-								<th style="min-width:85px;">First name</th>
-								<th style="min-width:80px;">Last name</th>
-								<th style="min-width:130px;">Activity</th>
-								<th style="min-width:195px;">Progress</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="item in list" :key="item.id">
-								<td class="text-right">
-									<status-indicator class="ml-10"
-										:active="item.status === 'active'"
-										:positive="item.status === 'positive'"
-										:intermediary="item.status === 'intermediary'"
-										:negative="item.status === 'negative'"
-										pulse
-									/>
-								</td>
-								<td style="min-width:80px;">{{item.first_name}}</td>
-								<td style="min-width:80px;">{{item.last_name}}</td>
-								<td style="min-width:130px;">
-									<peity :options="{fill:['#a4bbe0', '#5f8fdf']}" :type="'donut'" :data="'1/5'"></peity>
-									<peity :options="{fill:['#a4bbe0', '#5f8fdf']}" :type="'donut'" :data="'226/360'"></peity>
-									<peity :options="{fill:['#a4bbe0', '#5f8fdf']}" :type="'donut'" :data="'0.52/1.561'"></peity>
-									<peity :options="{fill:['#a4bbe0', '#5f8fdf']}" :type="'donut'" :data="'0.52/1.561'"></peity>
-									<peity :options="{fill:['#a4bbe0', '#5f8fdf']}" :type="'donut'" :data="'0.52/1.561'"></peity>
-								</td>
-								<td style="min-width:195px;">
-									<el-progress
-										:percentage="item.progress"
-										:status="item.status === 'positive' ? 'success':''"
-										:color="item.status === 'negative' ? '#ff4d4d' : item.status === 'intermediary' ? '#ffaa00' : ''"
-									></el-progress>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</vue-scroll>
+		<code>* la seccion de abajo solo debe mostrarse cuando se realiza una busqueda</code>
+		<el-row>
+			<el-col :sm="24" :md="12" :lg="6" :xl="6">
+				<p  class="sub-title">
+					<strong>Nombre:</strong>
+				</p>
 			</el-col>
-			<el-col :xs="24" :sm="12" :md="10" :lg="8" :xl="6">
-				<div class="card-base card-shadow--medium mb-30 bg-primary p-20" style="height:410px; box-sizing:border-box;" v-loading="!asyncChart2">
-					<div id="chart2" style="height:350px; width:80%; margin-left:10%"></div>
-				</div>
+			<el-col :sm="24" :md="12" :lg="6" :xl="6">
+				<p  class="sub-title">
+					<strong>Vencimiento:</strong>
+				</p>
+			</el-col>
+			<el-col :sm="24" :md="12" :lg="6" :xl="6">
+				<p  class="sub-title">
+					<strong>Tipo cuota:</strong>
+				</p>
+			</el-col>
+			<el-col :sm="24" :md="12" :lg="6" :xl="6">
+				<p  class="sub-title">
+					<a href=""><i class="mdi mdi-account"></i> Ver perfil</a> | <a href=""><i class="mdi mdi-plus"> Pagar cuota</i></a>
+				</p>
 			</el-col>
 		</el-row>
-
-		<el-row class="mt-0" :gutter="30">
-			<el-col :xs="24" :sm="12" :md="10" :lg="8" :xl="6">
-				<vue-scroll class="card-base card-shadow--medium p-20 mb-30" style="height:660px">
-					<h2 class="mv-0 animated fadeInDown">Activities</h2>
-					<h4 class="mt-5 mb-40 animated slideInUp"><span class="o-050">Last activity:</span><strong class="ml-10 o-070">2 days ago</strong></h4>
-
-					<timeline timeline-theme="lightblue">
-						<timeline-title>2 days ago</timeline-title>
-						<timeline-item :hollow="true">
-							Lorem ipsum dolor sit amet conse ctetur which ascing elit users.
-						</timeline-item>
-						<timeline-item :hollow="true">
-							Donec dapibus molestie lacus ac pellentesque.
-						</timeline-item>
-						<timeline-title>3 days ago</timeline-title>
-						<timeline-item :hollow="true">
-							Mauris vitae posuere arcu. Donec porta ex sed hendrerit euismod.
-						</timeline-item>
-						<timeline-title>4 days ago</timeline-title>
-						<timeline-item :hollow="true">
-							Suspendisse faucibus sem a ex porta.
-						</timeline-item>
-					</timeline>
-				</vue-scroll>
-			</el-col>
-			<el-col :xs="24" :sm="12" :md="14" :lg="16" :xl="18">
-				<div class="card-base card-shadow--medium p-20 mb-30" style="height:295px">
-					<div class="flex justify-space-between">
-						<div>
-							<h2 class="mv-0 animated fadeInDown">Report</h2>
-							<h4 class="mt-5 mb-40 o-050 animated slideInUp">This week</h4>
-						</div>
-						<div class="radio-switcher">
-							<el-radio-group v-model="radio2">
-								<el-radio-button label="Day"></el-radio-button>
-								<el-radio-button label="Week"></el-radio-button>
-								<el-radio-button label="Month"></el-radio-button>
-							</el-radio-group>
-						</div>
-					</div>
-
-					<h4 class="mb-0 mt-0">New Users</h4>
-					<el-progress :percentage="100" status="success"></el-progress>
-					<h4 class="mb-0">Views</h4>
-					<el-progress :percentage="70"></el-progress>
-					<h4 class="mb-0">Conversions</h4>
-					<el-progress :percentage="20" status="exception"></el-progress>
-				</div>
-
-				<div class="card-base card-shadow--medium flex column mb-30 pv-20 bg-primary" style="height:295px;">
-					<div class="ph-20">
-						<h2 class="white-text mv-0 animated fadeInDown">Visitors</h2>
-						<h4 class="white-text mt-5 mb-0 o-050 animated slideInUp">Jan - Jul</h4>
-					</div>
-					<div class="box grow ph-20">
-						<div style="width:100%; height:100%; position:relative;">
-							<bulma-chart :type="'bar'" :data="data3" :options="options3"></bulma-chart>
-						</div>
-					</div>
-				</div>
-			</el-col>
-		</el-row>
-
 	</vue-scroll>
 </template>
 
@@ -790,6 +635,9 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/scss/_variables';
+#buscarSocio{
+	width: 100% !important;
+}
 
 .widget {
 	height: 200px;
