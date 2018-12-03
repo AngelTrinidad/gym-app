@@ -16,7 +16,6 @@ export default {
         if(user.id === payload.id) return payload
         else return user
       })
-
     }
   },
   actions: {

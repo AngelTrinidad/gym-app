@@ -6,46 +6,28 @@
         <h3>{{sucursal.detalle | toUpperCaseWords}}</h3>
         <div class="bottom clearfix">
           <el-row>
-            <el-col :span="12">
+            <el-col>
               <el-button
                 type="text"
                 @click="dialogVisibleUpdate=true"
               >Editar</el-button>
             </el-col>
-            <el-col :span="12" class="text-right">
-              <el-button
-                type="text"
-                v-show="sucursal.estado"
-                @click="changeStatus()"
-              >
-                <span class="danger-text">Inactivar</span>
-              </el-button>
-              <el-button
-                type="text"
-                v-show="!sucursal.estado"
-                @click="changeStatus()"
-              >
-                <span class="success-text">Reactivar</span>
-              </el-button>
-            </el-col>
           </el-row>
         </div>
       </div>
     </el-card>
-    <el-dialog title="Editar sucursal" :visible.sync="dialogVisibleUpdate">
-			<el-row>
-	      <form-sucursal
-	    		:sucursal="sucursalUpdate"
-					:isCreate="false"
-	    		v-on:processFormSucursal="processUpdate($event)"
-	    		v-on:cancelFormSucursal="cancelUpdate"
-	    	></form-sucursal>
-			</el-row>
-    </el-dialog>
+    <sucursal-dialog
+  		:sucursal="sucursalUpdate"
+			:isCreate="false"
+			:visible.sync="dialogVisibleUpdate"
+  		v-on:processFormSucursal="processUpdate($event)"
+  		v-on:cancelFormSucursal="cancelUpdate"
+      v-on:deleteSucursal="deleteSucursal"
+  	></sucursal-dialog>
   </div>
 </template>
 <script>
-import FormSucursal from './FormSucursal'
+import SucursalDialog from './SucursalDialog'
 
 export default {
   props: {
@@ -66,7 +48,7 @@ export default {
     }
   },
   components: {
-    FormSucursal
+    SucursalDialog
   },
   methods: {
     async processUpdate(sucursal){
@@ -84,17 +66,25 @@ export default {
     cancelUpdate(){
       this.dialogVisibleUpdate = false
     },
-    async changeStatus(){
-      const res = await this.$store.dispatch('sucursal/changeStatus', this.sucursal.id)
-      if(res.status === 'ok'){
-        this.$message({
-					message: 'Estado de la sucursal modificado correctamente.',
-					type: 'success'
+    deleteSucursal(){
+			this.$confirm('Esto eliminará la sucursal, ¿está seguro?', 'Confirmación', {
+				confirmButtonText: 'Confirmar',
+				cancelButtonText: 'Cancelar',
+				type: 'error'
+			}).then(async ()=> {
+				//Confirmed
+				const res = await this.$store.dispatch('sucursal/changeState', {
+					id: this.sucursal.id,
+					state: 'delete'
 				})
-      }else{
-        this.$message.error('Oops. Hubo un error al procesar la acción.')
-      }
-    }
+				if(res.status === 'ok'){
+					this.$message({message: 'Sucursal eliminada correctamente', type: 'success'})
+          this.dialogVisibleUpdate = false
+				}else{
+					this.$message.error('Oops. Hubo un error al procesar la acción')
+				}
+			})
+		}
   }
 }
 </script>
