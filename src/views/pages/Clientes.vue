@@ -43,8 +43,13 @@
 						<div class="name box grow flex column justify-center p-10">
 							<div class="fullname fs-18"><strong>{{`${cliente.nombre} ${cliente.apellido}` | toUpperCaseWords}}</strong></div>
 							<div class="precio fs-14 secondary-text">{{cliente.nro_documento}}</div>
-							<div class="estado fs-14 secondary-text">{{`Servicios: ${cliente.__meta__.total_servicios}`}}</div>
-							<div class="estado fs-14 secondary-text" v-show="cliente.ingresos.length !== 0">{{`Ultimo ingreso: ${cliente.ingresos[0].created_at}`}}</div>
+							<div class="estado fs-14 secondary-text">{{`Servicios: ${cliente.total_servicios}`}}</div>
+							<div class="estado fs-14 secondary-text" v-if="cliente.ingreso">
+								{{`Ultimo ingreso: ${cliente.ingreso.data}`}}
+							</div>
+							<div class="estado fs-14 secondary-text">
+								{{`Ultimo pago: ---`}}
+							</div>
 						</div>
 						<div class="precio align-vertical p-10"><span class="align-vertical-middle">{{cliente.nro_documento}}</span></div>
 					</div>

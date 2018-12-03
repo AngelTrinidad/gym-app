@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import moment from 'moment'
+
 export default {
   namespaced: true,
   state: {
@@ -16,7 +18,12 @@ export default {
           email: cliente.email,
           fecha_nacimiento: cliente.fecha_nacimiento,
           sexo: cliente.sexo,
-          sucursal: cliente.sucursal
+          sucursal: cliente.sucursal,
+          total_servicios: cliente.__meta__.total_servicios,
+          ingreso: cliente.ingresos.length !== 0 ? {
+            data: moment(cliente.ingresos[0].created_at).format('DD/MM/YYYY hh:mm'),
+            sucursal: cliente.ingresos[0].sucursal.detalle
+          } : null
         }
       })
     },
@@ -48,7 +55,6 @@ export default {
         if(data.status === 'ok'){
           commit('setClientes', data.body.clientes)
         }
-        console.log(data)
       } catch (e) {
         return {
           status: 'error',
@@ -116,7 +122,7 @@ export default {
       return state.clientes.filter(cliente =>
         cliente.nro_documento === state.search ||
         cliente.nombre.toLowerCase().includes(state.search) ||
-        cliente.apellido.toLowerCase().include(state.search)
+        cliente.apellido.toLowerCase().includes(state.search)
       )
     }
   }
