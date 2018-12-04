@@ -134,7 +134,7 @@ export default {
 			height: 60px;
 			margin-bottom: 20px;
 			margin-top: 10px;
-			margin-left: 30px;
+			margin-left: 0px;
 			margin-right: 30px;
 		}
 
@@ -142,12 +142,14 @@ export default {
 			position: relative;
 			overflow: hidden;
 			padding: 0 30px;
+			padding-left:0px !important;
 		}
 
 		.view {
 			padding: 20px;
 			padding-bottom: 10px;
 			padding-top: 0px;
+			padding-left: 0px;
 			box-sizing: border-box;
 			transition: all .4s cubic-bezier(.55,0,.1,1);
 			backface-visibility: hidden;
