@@ -1,5 +1,5 @@
 <template>
-	<div class="footer flex align-center justify-space-between">
+	<div class="footer flex align-center justify-space-between ">
 		<div><span class="hidden-xs-only">Fecha y Hora</span><span class="hidden-sm-and-up">Docs.</span></div>
 		<div>
 			<span>Made by <a href="https://imago.com.py" target="_blank">Solvo</a></span>
