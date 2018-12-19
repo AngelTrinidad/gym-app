@@ -145,7 +145,7 @@ const router = new Router({
 			}
 		},
 		{
-			path: '/cuota/',
+			path: '/cuota',
 			alias: 'cuota',
 			name: 'Cuotas',
 			component: Cuota,

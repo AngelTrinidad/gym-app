@@ -4,7 +4,6 @@
 			<button @click="toggleSidebar" v-if="menuBurger !== 'right'" class="toggle-sidebar card-base card-shadow--small">
 				<i class="mdi mdi-menu"></i>
 			</button>
-
 			<search class="hidden-xs-only"></search>
 		</div>
 		<div class="box-right flex align-center pl-10">
@@ -24,6 +23,7 @@
 					<img :src="user.img_perfil ? `${$store.state.apiImages}users/${user.img_perfil}` : '/static/images/default-person.jpg'" class="avatar" alt="avatar">
 				</span>
 				<el-dropdown-menu slot="dropdown">
+					<el-dropdown-item command="config"><i class="mdi mdi-settings mr-10"></i> Configuraciones</el-dropdown-item>
 					<el-dropdown-item command="/profile"><i class="mdi mdi-account mr-10"></i> Perfil</el-dropdown-item>
 					<el-dropdown-item command="/logout" divided><i class="mdi mdi-logout mr-10"></i> Cerrar Sesión</el-dropdown-item>
 				</el-dropdown-menu>
@@ -33,6 +33,10 @@
 				<i class="mdi mdi-menu"></i>
 			</button>
 		</div>
+		<config-dialog
+			:visible.sync="dialogVisible"
+			@closeDialog="dialogVisible=false"
+		></config-dialog>
 	</div>
 </template>
 
@@ -40,14 +44,15 @@
 import {mapGetters} from 'vuex'
 import NotificationBox from '@/components/NotificationBox'
 import Search from '@/components/Search'
-
+import ConfigDialog from '@/components/Config/ConfigDialog'
 export default {
 	name: 'Toolbar',
 	props: ['menuBurger'],
 	data() {
 		return {
 			popoverWidth: 300,
-			fullscreen: false
+			fullscreen: false,
+			dialogVisible: false
 		}
 	},
 	computed: {
@@ -58,7 +63,11 @@ export default {
 	},
 	methods: {
 		onCommand(path) {
-			this.$router.push(path)
+			if(path === 'config'){
+				this.dialogVisible = true
+			}else{
+				this.$router.push(path)
+			}
 		},
 		toggleSidebar() {
 			this.$emit('toggle-sidebar')
@@ -79,7 +88,8 @@ export default {
 	},
 	components: {
 		NotificationBox,
-		Search
+		Search,
+		ConfigDialog
 	},
 	mounted() {
 		this.fullscreen = this.$fullscreen.getState()

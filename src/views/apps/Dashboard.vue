@@ -89,7 +89,7 @@
 		<el-row class="demo-autocomplete">
 			<el-col :xs="24" :lg="24">
 				<div class="sub-title">Buscador rápido de socio</div>
-				<el-autocomplete prefix-icon="el-icon-search" id="buscarSocio" class="inline-input" v-model="state2" :fetch-suggestions="querySearch" placeholder="Ingresar nombre o ci" :trigger-on-focus="false" @select="handleSelect"></el-autocomplete>
+				<el-autocomplete prefix-icon="el-icon-search" id="buscarSocio" class="inline-input" placeholder="Ingresar nombre o ci"></el-autocomplete>
 			</el-col>
 		</el-row>
 		<code>* la seccion de abajo solo debe mostrarse cuando se realiza una busqueda</code>
@@ -618,8 +618,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.initChart1()
-		this.initChart2()
+		
 	},
 	beforeDestroy() {
 		this.destroyChart1()
