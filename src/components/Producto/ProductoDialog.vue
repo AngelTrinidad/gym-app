@@ -44,7 +44,7 @@
 									id="selectPicture"
 									@change="fileSelected($event)"
 									accept=".jpg, .jpeg"
-								></input>
+								>
 								<img
 									v-if="imgURL"
 									alt="imagen producto"

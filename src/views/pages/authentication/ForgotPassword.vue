@@ -55,6 +55,7 @@ export default {
 					this.$message.error('Oops. Hubo un error al procesar el formulario.')
 				}else{
 					const res = await this._forgoutPass(this.user.email)
+					console.log(res)
 					if(res.status === 'ok'){
 						this.$message({
 		          message: 'Te enviamos un email con el enlace para reestablecer tu password',

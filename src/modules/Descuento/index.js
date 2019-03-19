@@ -30,7 +30,7 @@ export default {
     },
     setDescuento: (state, payload) => {
       if(payload.estado == 2){
-        state.productos = state.productos.filter(producto => producto.id !== payload.id)
+        state.descuentos = state.descuentos.filter(descuento => descuento.id !== payload.id)
       }else{
         state.descuentos = state.descuentos
           .map(descuento => descuento.id === payload.id ? {

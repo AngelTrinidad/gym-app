@@ -92,12 +92,20 @@
                       {{actionDescuento === 'create' ? 'Crear' : 'Actualizar'}}
               			</el-button>
                     <el-button
-                      type="danger"
+                      type="primary"
                       size="mini"
                       @click="cancelFormDescuento"
                       v-show="actionDescuento === 'update'"
                     >
                       Cancelar
+              			</el-button>
+                    <el-button
+                      type="danger"
+                      size="mini"
+                      @click="deleteDescuento"
+                      v-show="actionDescuento === 'update'"
+                    >
+                      Eliminar
               			</el-button>
                   </el-col>
                 </el-row>
@@ -106,8 +114,17 @@
           </el-row>
         </el-collapse-item>
         <el-collapse-item title="Medios de pagos" name="2">
-          <div>Operation feedback: enable the users to clearly perceive their operations by style updates and interactive effects;</div>
-          <div>Visual feedback: reflect current state by updating or rearranging elements of the page.</div>
+          <el-row>
+            <div v-for="item in mediosPago" :key="item.id">
+              <el-switch 
+                v-model="item.value" 
+                :active-text="item.text"
+                active-color="#13ce66"
+                @change="changeStatusMedioPago(item)"
+              >
+              </el-switch>
+            </div>
+          </el-row>
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -149,16 +166,27 @@ export default {
             else callback()
           }, trigger: 'change'}
         ]
-			}
+      },
+      mediosPago: []
     }
   },
   computed: {
     ...mapGetters({
-      _descuentos: 'descuento/all'
+      _descuentos: 'descuento/all',
+      _mediosPago: 'mediosPago/all'
     })
   },
   mounted(){
     this.$store.dispatch('descuento/get')
+    this.$store.dispatch('mediosPago/get').then(() => {
+      this._mediosPago.forEach(item => {
+        this.mediosPago.push({
+          id: item.id,
+          value: !!item.estado,
+          text: item.detalle
+        })
+      })
+    })
   },
   methods: {
     validateBeforeSubmit(){
@@ -201,6 +229,34 @@ export default {
     cancelFormDescuento(){
       this.descuentoForm = {}
       this.actionDescuento = 'create'
+    },
+    deleteDescuento(){
+			this.$confirm('Esto eliminará el descuento, ¿está seguro?', 'Confirmación', {
+				confirmButtonText: 'Confirmar',
+				cancelButtonText: 'Cancelar',
+				type: 'error'
+			}).then(async ()=> {
+				//Confirmed
+				const res = await this.$store.dispatch('descuento/changeState', {
+					id: this.descuentoForm.id,
+					state: 'delete'
+				})
+				if(res.status === 'ok'){
+					this.$message({message: 'Descuento eliminado correctamente', type: 'success'})
+          this.cancelFormDescuento()
+				}else{
+					this.$message.error('Oops. Hubo un error al procesar la acción')
+				}
+			})
+    },
+    async changeStatusMedioPago(medioPago){
+      const res = await this.$store.dispatch('mediosPago/changeState', {
+        id: medioPago.id, 
+        state: medioPago.value ? 'enable' : 'disable'
+      })
+      if(res.status === 'error'){
+        this.$message.error('Oops. Hubo un error al procesar la acción')
+      }
     }
   }
 }
