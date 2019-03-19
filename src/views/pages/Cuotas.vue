@@ -210,7 +210,7 @@
 								</el-col>
 								<el-col :sm="12" :lg="6">
 
-										<el-button type="success" icon="el-icon-check" class="anchoTotal"> Registrar</el-button>
+										<el-button type="success" icon="el-icon-check" class="anchoTotal"> 	Registrar</el-button>
 
 								</el-col>
 							</el-row>
